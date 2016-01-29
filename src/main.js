@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import App from './components/App'
+import Index from './components/Index'
 
 let rootElement = document.getElementById('content')
 
 render(
-  <App />,
+  <Index />,
   rootElement
 )

@@ -1,29 +1,29 @@
 import React, { Component } from 'react'
 
 export default class Header extends Component {
-  
-  constructor ( props ) {
+	
+	constructor ( props ) {
 
 		super( props )
 		
 		this.state = {}
 
-  }
+	}
 
-  render() {
+	render() {
 		return (
-			<header id="comparamejor-main-header">
-				<nav className="navbar navbar-default" role="navigation">
+			<header id="comparamejor-main-header" className="rastreator comparamejor-main-header">
+				<nav className="navbar navbar-default comparamejor-main-header__navbar" role="navigation">
 					<div className="container">
 						{/*Brand and toggle get grouped for better mobile display */}
-						<div className="navbar-header">
+						<div className="navbar-header comparamejor-main-header__navbar-header">
 							<button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#header-navbar-collapse">
 								<span className="sr-only">Toggle navigation</span>
 								<span className="icon-bar"></span>
 								<span className="icon-bar"></span>
 								<span className="icon-bar"></span>
 							</button>
-							<a className="navbar-brand" href="https://comparamejor.com/">
+							<a className="navbar-brand comparamejor-main-header__navbar-brand" href="https://comparamejor.com/">
 								<img src="https://segdig1.s3.amazonaws.com/static/bower_components/frontendquillo/images/main/header-logo.png" height="72px" width="auto" alt="ComparaMejor.com"/>
 							</a>
 						</div>
@@ -34,7 +34,7 @@ export default class Header extends Component {
 								<div className="wrapper clearfix">
 									<ul id="user-block" className="nav navbar-nav submenu-mobile">
 										<li id="account-button" className="dropdown">
-											<a href="/usuarios/login" className="upper"><i className="fa fa-user"></i> Ingresar</a>
+											<a href="/usuarios/login" className="upper comparamejor-main-header__login"><i className="fa fa-user"></i> Ingresar</a>
 										</li>
 									</ul>
 									{/*This is a requirement from Ricardo Buitrago due to an arrangement with inbox labs*/}
@@ -49,5 +49,5 @@ export default class Header extends Component {
 				</nav>
 			</header>
 		)
-  }
+	}
 }

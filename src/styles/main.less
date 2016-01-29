@@ -9,12 +9,14 @@
 // @import "../components/identification_type/index";
 // @import "../components/date_of_birth/index";
 // @import "../components/quote_table/index";
-@import "../components/footer/index";
+
+@import "../../node_modules/bootstrap/less/variables.less";
+@import "../../node_modules/bootstrap/less/mixins.less";
 
 /*
   UX3 Utilities
 */
-// @import "variables.less";
+@import "variables.less";
 // @import "mixins.less";
 // @import "navbar.less";
 // @import "utilities.less";
@@ -22,18 +24,18 @@
 /*
   Frontendquillo
 */
-// @import "../../node_modules/frontendquillo/less/404";
-// @import "../../node_modules/frontendquillo/less/buttons";
-// @import "../../node_modules/frontendquillo/less/cars-below-the-fold";
-// @import "../../node_modules/frontendquillo/less/fixes";
-// @import "../../node_modules/frontendquillo/less/fonts";
-// @import "../../node_modules/frontendquillo/less/main";
-// @import "../../node_modules/frontendquillo/less/misc";
-// @import "../../node_modules/frontendquillo/less/mixins";
-// @import "../../node_modules/frontendquillo/less/modals";
-// @import "../../node_modules/frontendquillo/less/responsive";
-// @import "../../node_modules/frontendquillo/less/type";
-// @import "../../node_modules/frontendquillo/less/variables";
+@import "../../node_modules/frontendquillo/less/404";
+@import "../../node_modules/frontendquillo/less/buttons";
+@import "../../node_modules/frontendquillo/less/cars-below-the-fold";
+@import "../../node_modules/frontendquillo/less/fixes";
+@import "../../node_modules/frontendquillo/less/fonts";
+@import "../../node_modules/frontendquillo/less/main";
+@import "../../node_modules/frontendquillo/less/misc";
+@import "../../node_modules/frontendquillo/less/mixins";
+@import "../../node_modules/frontendquillo/less/modals";
+@import "../../node_modules/frontendquillo/less/responsive";
+@import "../../node_modules/frontendquillo/less/type";
+@import "../../node_modules/frontendquillo/less/variables";
 
 /*
   Bootstrap
@@ -73,6 +75,11 @@
 @import "../../node_modules/bootstrap/less/carousel.less";
 @import "../../node_modules/bootstrap/less/responsive-utilities.less";
 @import "../../node_modules/bootstrap/less/jumbotron.less";
+
+// UX32
+
+@import "../components/header/index";
+@import "../components/footer/index";
 
 /*
   Fonts

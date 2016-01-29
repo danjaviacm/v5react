@@ -8,7 +8,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const PATHS = {
 	app: path.resolve(__dirname, 'src/main.js' ),
 	build: path.resolve(__dirname, 'build' ),
-	fonts: path.resolve(__dirname, 'src/fonts')
+	fonts: path.resolve(__dirname, 'src/fonts'),
+	indexfile: path.resolve(__dirname, 'index.html' ),
 };
 
 module.exports = {
@@ -71,6 +72,8 @@ module.exports = {
 
         new CopyWebpackPlugin([
         	
+            { from: PATHS.indexfile },
+
             { from: PATHS.fonts, to: 'fonts' }
 
         ], {

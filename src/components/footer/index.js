@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+
+import Styles from './index.less'
 
 export default class Footer extends Component {
 

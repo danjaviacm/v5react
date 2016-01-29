@@ -13,7 +13,7 @@ import Test from './test'
 export default class Root extends Component {
   render() {
     return (
-      <Router history={browserHistory}>
+      <Router history={createBrowserHistory()}>
         <Route path='/' component={Test}>
           <IndexRoute component={Test} />
           <Route path='test' component={Test} />

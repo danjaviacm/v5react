@@ -59,9 +59,9 @@ module.exports = {
 			{ test: /\.(png|jpg)$/, loader: 'url?limit=25000' },
 
 			// LESS
-            // { test: /\.less$/, loader: "style!css!less" },
+            { test: /\.less$/, loader: "style!css!less" },
 
-            { test: /\.less$/, loader: ExtractTextPlugin.extract("css-loader!autoprefixer-loader!less-loader")},
+            // { test: /\.less$/, loader: ExtractTextPlugin.extract("css-loader!autoprefixer-loader!less-loader")},
 
 			// SASS
 			{ test: /\.scss$/, loader: 'style!css!sass'	}
@@ -84,7 +84,7 @@ module.exports = {
         }),
 
 		new OpenBrowserPlugin({ url: 'http://localhost:5000' }),
-		new ExtractTextPlugin( "./[name].css" )
+		// new ExtractTextPlugin( "./[name].css" )
 
 	]
 	

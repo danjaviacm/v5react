@@ -21,13 +21,6 @@ module.exports = {
 		filename: 'bundle.js'
 	},
 
-	// For joi libs
-	node: {
-      net: 'empty',
-      tls: 'empty',
-      dns: 'empty'
-    },
-
 	module: {
 		loaders: [
 			{
@@ -40,9 +33,9 @@ module.exports = {
 			},
 
 			// BOOTSTRAP && OUR FONTS
-			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?name=[name]-[hash].[ext]' },
+			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?fonts/name=[name]-[hash].[ext]' },
 
-			{ test: /\.eot(\?-[a-z0-9]+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" }, 
+			{ test: /\.eot(\?-[a-z0-9]+)?$/, loader: 'file-loader?fonts/name=[name]-[hash].[ext]' }, 
 
 			// FONT AWESOME FONTS
 			{ test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" }, 

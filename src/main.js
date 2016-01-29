@@ -4,9 +4,9 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import Index from './components/Index'
 
-let rootElement = document.getElementById('content')
+// Import Application styles
+import Styles from './styles/main.less'
 
-render(
-  <Index />,
-  rootElement
-)
+let rootElement = document.getElementById( 'content' )
+
+render(	<Index />, rootElement )

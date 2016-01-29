@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 
-import Styles from './index.less'
-
 export default class Footer extends Component {
 
-	constructor( props ) {
+	constructor( props, context ) {
 		super( props )
 	}
 

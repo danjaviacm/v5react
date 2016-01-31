@@ -9,7 +9,6 @@ export default class Footer extends Component {
 	render() {
 		return (
 			<div id="footer-cars-v4">
-				<div style={{color: '#999', fontStyle: 'italic', fontSize: '12px'}}>Nuestros socios de confianza:</div>
 				<ul className="unestyled-list pull-left">
 						<li><img
 								src="https://segdig1.s3.amazonaws.com/static/core-app/img/logos/insurance-companies/vector/color/allianz.svg"

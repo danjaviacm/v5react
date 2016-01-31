@@ -1,0 +1,113 @@
+.steps-form {
+	background: #fff;
+    border: 1px solid #f7f7f7;
+    margin-top: -17px;
+    position: relative;
+    z-index: 100;
+
+    &:after {
+    	content: '';
+	    position: absolute;
+	    top: 0;
+	    right: -17px;
+	    height: 16px;
+	    width: 16px;
+	    border: 8px solid #ddd;
+	    border-right-color: transparent;
+	    border-top-color: transparent;
+    }
+
+    h1 {
+	    font-size: 43px;
+	    float: left;
+	    margin-top: 12px;
+	    font-family: BebasNeueRegular, Helvetica,Arial,sans-serif;
+	    font-weight: 400;
+	    letter-spacing: 0!important;
+    }
+
+    &__navbar {
+    	float: right;
+    }
+    	
+	&__list {
+		list-style: none;
+	    padding: 0;
+	    margin: 0;
+
+	    &__item {
+	    	display: inline-block;
+	    }
+	}
+
+	&__link {
+		display: block;
+	    padding: 25px 30px;
+	    color: #999;
+	    font-size: 17px;
+	    margin-top: -1px;
+	    font-family: BebasNeueRegular,Helvetica,Arial,sans-serif;
+	    text-decoration: none;
+	    cursor: default;
+	    
+	    &.active {
+    		background: #efefef;
+			color: #777;
+	    }
+
+	    &:hover,
+	    &:active {
+		    text-decoration: none;
+		    cursor: default;
+	    	color: #999;
+	    }
+	}
+    
+}
+
+.step-query-registration {
+
+	text-align: center;
+
+	&__message {
+		font-family: BebasNeueRegular,Helvetica,Arial,sans-serif;
+	    font-size: 70px;
+	    line-height: 100%;
+
+	    span.palid-yellow { color: #FBF9C7!important; }
+	}
+
+	&__form {
+		padding-top: 10px;
+		text-align: left;
+
+		span {
+			font-size: 20px;
+		}
+	}
+
+	&__form-registration input {
+		color: #999;
+	    padding: 10px;
+	    border: none;
+	    text-align: center;
+	    width: 200px;
+	    margin: 10px 0;
+	    border-radius: 10px;
+	    font-family: BebasNeueRegular,Helvetica,Arial,sans-serif;
+	    font-size: 50px;
+	}
+
+	&__success {
+		display: block;
+		text-align: center;
+	}
+
+}
+
+#apply-cars-v4 {
+	background-color: #007ea6;
+	border-top: 17px solid white;
+	position: relative;
+	color: #fff;
+}

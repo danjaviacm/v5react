@@ -33,7 +33,7 @@ module.exports = {
 			},
 
 			// BOOTSTRAP && OUR FONTS
-			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?fonts/name=[name]-[hash].[ext]' },
+			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?name=[name]-[hash].[ext]' },
 
 			{ test: /\.eot(\?-[a-z0-9]+)?$/, loader: 'file-loader?fonts/name=[name]-[hash].[ext]' }, 
 

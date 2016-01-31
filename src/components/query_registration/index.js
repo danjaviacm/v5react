@@ -64,7 +64,7 @@ export default class QueryRegistration extends Component {
 			                                    <input auto-focus name="vehicle_registration" id="plate" maxLength="6" placeholder="XXX000" type="text"/><br/>
 			                                    <button type="submit" className="btn btn-orange btn-lg upper" ng-hide="loadingUj" onclick="validPlate(); return false;">Continuar</button>
 			                                </form>
-			                                <span className="btn btn-orange btn-lg upper" ng-show="loadingUj"><i className="fa fa-spinner fa-spin"></i> Continuar</span>
+			                                {/*<span className="btn btn-orange btn-lg upper" ng-show="loadingUj"><i className="fa fa-spinner fa-spin"></i> Continuar</span>*/}
 			                            </div>
 			                            <div className="col-xs-12 step-query-registration__success">
 			                                <br/>

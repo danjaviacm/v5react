@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 export default class Footer extends Component {
 
 	constructor( props, context ) {
+		
 		super( props )
 	}
 

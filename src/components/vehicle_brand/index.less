@@ -5,32 +5,33 @@
 .list-brands {
     text-align: center;
 
-    ul {
+    &__list {
         margin: 0;
         padding: 0;
         list-style: none;
 
-        li {
+    }
+    
+    &__item {
 
-            display: block;
-            margin: 30px;
+        display: block;
+        margin: 30px;
 
-            > span {
-                background: #00709c;
-                color: #fff;
-                padding: 10px;
-                border-radius: 10px;
-                text-decoration: none;
-                width: 250px;
-                cursor: pointer;
-                display: inline-block;
-                text-transform: uppercase;
+        > span {
+            background: #00709c;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            width: 250px;
+            cursor: pointer;
+            display: inline-block;
+            text-transform: uppercase;
 
-                &:hover,
-                &:active {
-                    background: #fff;
-                    color: #00709c;
-                }
+            &:hover,
+            &:active {
+                background: #fff;
+                color: #00709c;
             }
         }
     }

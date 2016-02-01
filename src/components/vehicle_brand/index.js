@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
-import _ from 'lodash';
+import _ from 'lodash'
 
-import Brand from '../brand';
+import Brand from '../brand'
 
 export default class VehicleBrand extends Component {
   
@@ -28,7 +28,7 @@ export default class VehicleBrand extends Component {
   		let alphabeticalList = []
 
   		Ux3Services.getBrandsByBody( 'CAMIONETA' )
-	  		.then((data) => {
+	  		.then(( data ) => {
 
                 this.setState({ brands: data })
 
@@ -69,7 +69,7 @@ export default class VehicleBrand extends Component {
   		this.setState({ showMore: true })
   	}
 
-  	componentDidMount () {
+  	componentWillMount () {
 
   		// Get all brands
 		this.fetchBrands()  	
@@ -103,10 +103,10 @@ export default class VehicleBrand extends Component {
 		            { this.state.alphabeticalList.map( ( collection, key ) => {
 		            	return <div className="letter" key={ key }>
 			                <h1 style={{ borderBottom: '1px dotted rgba( 255, 255, 255, .2 )' }}>{ collection.al }</h1>
-			                <ul className="unstyled-list v-list">
+			                <ul className="unstyled-list v-list list-brands__list">
 				                
 				                { collection.brands.map( ( brand, key ) => {
-				                	return <li key={ key }>
+				                	return <li key={ key } className="list-brands__item">
 				                        <span className="btnuj">
 				                            <span className="text">{ brand.name }</span>
 				                        </span>

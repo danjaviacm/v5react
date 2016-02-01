@@ -10,6 +10,7 @@ import $ from 'jquery'
 import Test from './test'
 import QueryRegistration from './query_registration'
 import VehicleType from './tipo_vehiculo'
+import VehicleBrand from './vehicle_brand'
 import Footer from './footer'
 import App from './app'
 
@@ -23,6 +24,7 @@ export default class Root extends Component {
 					<IndexRoute component={Test} />
 					<Route path='/consultar-placa' component={QueryRegistration} />
 					<Route path='/tipo-vehiculo' component={VehicleType} />
+					<Route path='/marca-vehiculo' component={VehicleBrand} />
 					<Route path='/some' component={Footer} />
 					<Route path='*' component={Test} />
 				</Route>

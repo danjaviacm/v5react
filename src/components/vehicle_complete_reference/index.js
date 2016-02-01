@@ -3,23 +3,23 @@ import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
 
-export default class VehicleReference extends Component {
+export default class VehicleCompleteReference extends Component {
 
    	constructor ( props, context ) {
    		
 	  	super( props ) 
 
 	  	this.state = {
-	  		references: []
+	  		completeReferences: []
 	  	}
   	}
 
   	componentWillMount () {
 
-  		Ux3Services.getReferencesByLine( 'AUTOMOVIL', 'ACURA', '1998', 'TL' )
+  		Ux3Services.getCompleteReferences( 'AUTOMOVIL', 'ACURA', '1998', 'TL', '2.5L' )
   			.then(( data ) => {
 
-                this.setState({ references: data })
+                this.setState({ completeReferences: data })
                 console.log( data )
 
             }).catch(( error ) => {
@@ -30,15 +30,15 @@ export default class VehicleReference extends Component {
 
   	render() {
 	    return (
-	    	<div id="step-vehicle-reference" className="step step-vehicle-reference">
+	    	<div id="step-vehicle-complete-reference" className="step step-vehicle-complete-reference">
 		        <header>
-		            <h1>¿Cuál es la referencia de tu vehículo?</h1>
+		            <h1>Referencia completa</h1>
 		        </header>
 
-		        <ul className="unstyled-list v-list step-vehicle-reference__list">
+		        <ul className="unstyled-list v-list step-vehicle-complete-reference__list">
 		            
-		            { this.state.references.map( ( reference, key ) => {
-		            	return <li className="step-vehicle-reference__item" key={ key }>
+		            { this.state.completeReferences.map( ( reference, key ) => {
+		            	return <li className="step-vehicle-complete-reference__item" key={ key }>
 			                <span className="btnuj">
 			                    <span className="text">{ reference.name }</span>
 			                </span>

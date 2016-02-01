@@ -12,6 +12,7 @@ export default class Brand extends React.Component {
   	}
 
   	render() {
+  		
 	    return (
 	    	<div className="brand" key={ this.props.key }>
                 <div className="container-img">

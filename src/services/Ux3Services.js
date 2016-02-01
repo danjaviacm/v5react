@@ -3,7 +3,6 @@ import { BASE_URL } from '../constants/AppConstants'
 
 const url = BASE_URL
 
-
 class Ux3Services {
     getBrandsByBody(idBody) {
         return request({

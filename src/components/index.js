@@ -12,6 +12,7 @@ import QueryRegistration from './query_registration'
 import VehicleType from './tipo_vehiculo'
 import VehicleBrand from './vehicle_brand'
 import VehicleModel from './vehicle_model'
+import VehicleLine from './vehicle_line'
 import Footer from './footer'
 import App from './app'
 
@@ -27,6 +28,7 @@ export default class Root extends Component {
 					<Route path='/tipo-vehiculo' component={VehicleType} />
 					<Route path='/marca-vehiculo' component={VehicleBrand} />
 					<Route path='/modelo-vehiculo' component={VehicleModel} />
+					<Route path='/linea-vehiculo' component={VehicleLine} />
 					<Route path='/some' component={Footer} />
 					<Route path='*' component={Test} />
 				</Route>

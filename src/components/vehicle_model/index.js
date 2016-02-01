@@ -50,7 +50,7 @@ export default class VehicleModel extends Component {
 		        <div align="center" className="squares">
 		            
 		            { this.state.models.map( ( year, key ) => { 
-		            	return <div className="square" key={ key } ng-click="selectOption(model.year)">
+		            	return <div className="square" key={ key }>
 			                { year.year }
 			            </div> 
 			        })}

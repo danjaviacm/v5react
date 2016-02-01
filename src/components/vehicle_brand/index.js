@@ -14,7 +14,8 @@ export default class VehicleBrand extends Component {
     	this.state = {
     		brands: [],
     		alphabeticalList: [],
-    		popular_brands: []
+    		popular_brands: [],
+    		showMore: false
     	}
 
     	this.fetchBrands = this.fetchBrands.bind( this )
@@ -62,6 +63,12 @@ export default class VehicleBrand extends Component {
             })
   	}
 
+  	showMore ( e ) {
+  		e.preventDefault()
+
+  		this.setState({ showMore: true })
+  	}
+
   	componentDidMount () {
 
   		// Get all brands
@@ -77,20 +84,20 @@ export default class VehicleBrand extends Component {
 		        </header>
 
 		    	{/* Brand images */}
-		        <div className="brands" ng-hide="list">
+		        { ! this.state.showMore ? <div className="brands" ng-hide="list">
 
 		            { this.state.popular_brands.map( ( brand, key ) => {
 		            	if ( brand.is_popular && key < 15 )
 		            		return <Brand brand={ brand } key={ key } />
 		            })}
 
-		            <div className="brand more" ng-show="loadMoreBtn" ng-click="showMore()">
+		            <div className="brand more" ng-show="loadMoreBtn" onClick={ this.showMore.bind(this) }>
 		                <span>+</span>
 		            </div>
-		        </div>
+		        </div> : null }
 
 		    	{/* Brands list */}
-		        <div className="list-brands" ng-show="list">
+		        { this.state.showMore ? <div className="list-brands" ng-show="list">
 
 		            { this.state.alphabeticalList.map( ( collection, key ) => {
 		            	return <div className="letter" ng-repeat="letter in alphabeticalList" key={ key }>
@@ -107,7 +114,7 @@ export default class VehicleBrand extends Component {
 			            </div>
 		            })}
 
-		        </div>
+		        </div> : null } 
 		    </div>
 	    )
   	}

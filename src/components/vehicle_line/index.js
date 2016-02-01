@@ -20,7 +20,6 @@ export default class VehicleLine extends Component {
   			.then(( data ) => {
 
                 this.setState({ lines: data })
-                console.log( data )
 
             }).catch(( error ) => {
                 trackJs.track( JSON.stringify( error ))

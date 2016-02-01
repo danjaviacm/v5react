@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import request from 'reqwest'
+import Ux3Services from '../../services/Ux3Services'
+import _ from 'lodash';
+
+import Brand from '../brand';
 
 export default class VehicleBrand extends Component {
   
@@ -6,8 +11,43 @@ export default class VehicleBrand extends Component {
 
     	super( props )
     	
-    	this.state = {}
+    	this.state = {
+    		brands: [],
+    		popular_brands: []
+    	}
+
+    	this.fetchBrands = this.fetchBrands.bind( this )
   	
+  	}
+
+  	fetchBrands () {
+
+  		let popular_brands = []
+
+  		Ux3Services.getBrandsByBody( 'AUTOMOVIL' )
+	  		.then((data) => {
+
+                this.setState({ brands: data })
+
+                _.each( data, ( value, key ) => {
+                	if ( value.is_popular )
+                		popular_brands.push( value )
+                })
+
+                this.setState({
+        			popular_brands: popular_brands
+        		})
+
+            }).catch((error) => {
+                trackJs.track(JSON.stringify(error))
+                console.log(error)
+            })
+  	}
+
+  	componentDidMount () {
+
+  		// Get all brands
+		this.fetchBrands()  	
   	}
 
   	render() {
@@ -17,27 +57,30 @@ export default class VehicleBrand extends Component {
 		            <h1>¿Cuál es la marca de tu vehículo?</h1>
 		        </header>
 
+		    	{/* Brand images */}
 		        <div className="brands" ng-hide="list">
-		            <div ng-repeat="brand in brands | orderBy: orderCriteria | limitTo: limit" className="brand" ng-className="{'active':sameValue(vehicle_brand, brand.name)}" ng-click="selectOption(brand)">
-		                <div className="container-img">
-		                    <img ng-show="brand.image" ng-src="{{ baseUrlMedia + brand.image }}" alt="{{ brand.name }}" className="img-responsive"/>
-		                </div>
-		                <span ng-className="{'big':(brand.image == null)}">{{ brand.name }}</span>
-		            </div>
+		            { this.state.popular_brands.map( ( brand, key ) => {
+		            	if ( brand.is_popular && key < 15 )
+		            		return <Brand brand={ brand } key={ key } />
+		            })}
+
 		            <div className="brand more" ng-show="loadMoreBtn" ng-click="showMore()">
 		                <span>+</span>
 		            </div>
 		        </div>
-		        
+
+		    	{/* Brands list */}
 		        <div className="list-brands" ng-show="list">
 		            <div className="letter" ng-repeat="letter in alphabeticalList">
-		                <h1 style="border-bottom: 1px dotted rgba(255,255,255,.2);">{{ letter.index }}</h1>
+		                <h1 style={{ borderBottom: '1px dotted rgba( 255, 255, 255, .2 )' }}></h1>
 		                <ul className="unstyled-list v-list">
-		                    <li ng-repeat="brand in letter.brands">
-		                        <span className="btnuj" ng-className="{'active':sameValue(vehicle_line, line.name)}" ng-click="selectOption(brand)">
-		                            <span className="text">{{ brand.name }}</span>
-		                        </span>
-		                    </li>
+			                { this.state.brands.map( ( brand, key ) => {
+				            	return <li ng-repeat="brand in letter.brands">
+			                        <span className="btnuj" ng-className="" ng-click="">
+			                            <span className="text">{ brand.name }</span>
+			                        </span>
+			                    </li>
+			            	})}
 		                </ul>
 		            </div>
 		        </div>

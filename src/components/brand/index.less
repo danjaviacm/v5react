@@ -1,0 +1,56 @@
+.brand {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    padding: 15px;
+    background: #f7f7f7;
+    border-left: 1px solid #007ea6;
+    border-top: 2px solid #007ea6;
+    border-right: 1px solid #007ea6;
+    border-bottom: 1px solid #007ea6;
+    width: 170px;
+    height: 170px;
+
+    &:hover,
+    &:active {
+        background: #5da6dd;
+
+        span {
+            color: #fefefe;
+        }
+    }
+
+    &.more {
+        background: #f90;
+
+        span {
+            color: #fff;
+            font-size: 87px;
+        }
+    }
+
+    .container-img  {
+        width: 80%;
+        height: 80%;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 8;
+
+        img {
+            display: inline-block;
+            zoom: 1; /* Fix for IE7 */
+            *display: inline; /* Fix for IE7 */
+            vertical-align: middle;
+            width: 100%;
+        }
+
+    }
+    
+    span {
+        font-family: BebasNeueRegular,Helvetica,Arial,sans-serif;
+        font-size: 16px;
+        display: block;
+        padding-top: 7px;
+        color: #999;
+    }
+}

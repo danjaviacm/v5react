@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 // Needed Components
-import Header from '../header';
-import Steps from '../steps';
-import Footer from '../footer';
+import Header from '../header'
+import Steps from '../steps'
+import Loading from '../loading'
+import Footer from '../footer'
 
 export default class App extends Component {
 
@@ -37,9 +38,7 @@ export default class App extends Component {
 								</a>
 							</div>
 
-							<div className="loadiuj hidden-xs" show="loadingUj">
-								<i className="fa fa-spinner fa-spin"></i>&nbsp;&nbsp;Procesando...
-							</div>
+							<Loading />
 
 							<a href="" className="ta-left white back-step visible-xs">
 								<i className="fa fa-chevron-left"></i><i className="fa fa-chevron-left"></i> Paso anterior

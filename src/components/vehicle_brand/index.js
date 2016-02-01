@@ -27,7 +27,7 @@ export default class VehicleBrand extends Component {
   		let popular_brands = []
   		let alphabeticalList = []
 
-  		Ux3Services.getBrandsByBody( 'AUTOMOVIL' )
+  		Ux3Services.getBrandsByBody( 'CAMIONETA' )
 	  		.then((data) => {
 
                 this.setState({ brands: data })
@@ -57,9 +57,9 @@ export default class VehicleBrand extends Component {
         			alphabeticalList: alphabeticalList
         		})
 
-            }).catch((error) => {
-                trackJs.track(JSON.stringify(error))
-                console.log(error)
+            }).catch(( error ) => {
+                trackJs.track( JSON.stringify( error ))
+                console.log( error )
             })
   	}
 
@@ -79,37 +79,40 @@ export default class VehicleBrand extends Component {
 
 	    return (
 	     	<div id="step-vehicle-brand" className="step">
+
 		        <header>
 		            <h1>¿Cuál es la marca de tu vehículo?</h1>
 		        </header>
 
 		    	{/* Brand images */}
-		        { ! this.state.showMore ? <div className="brands" ng-hide="list">
+		        { ! this.state.showMore ? <div className="brands">
 
 		            { this.state.popular_brands.map( ( brand, key ) => {
 		            	if ( brand.is_popular && key < 15 )
 		            		return <Brand brand={ brand } key={ key } />
 		            })}
 
-		            <div className="brand more" ng-show="loadMoreBtn" onClick={ this.showMore.bind(this) }>
+		            <div className="brand more" onClick={ this.showMore.bind(this) }>
 		                <span>+</span>
 		            </div>
 		        </div> : null }
 
 		    	{/* Brands list */}
-		        { this.state.showMore ? <div className="list-brands" ng-show="list">
+		        { this.state.showMore ? <div className="list-brands">
 
 		            { this.state.alphabeticalList.map( ( collection, key ) => {
-		            	return <div className="letter" ng-repeat="letter in alphabeticalList" key={ key }>
+		            	return <div className="letter" key={ key }>
 			                <h1 style={{ borderBottom: '1px dotted rgba( 255, 255, 255, .2 )' }}>{ collection.al }</h1>
 			                <ul className="unstyled-list v-list">
+				                
 				                { collection.brands.map( ( brand, key ) => {
-				                	return <li ng-repeat="brand in letter.brands" key={ key }>
-				                        <span className="btnuj" ng-className="" ng-click="">
+				                	return <li key={ key }>
+				                        <span className="btnuj">
 				                            <span className="text">{ brand.name }</span>
 				                        </span>
 				                    </li>
 				                })}
+
 			                </ul>
 			            </div>
 		            })}

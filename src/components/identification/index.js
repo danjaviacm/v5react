@@ -12,7 +12,7 @@ export default class Identification extends Component {
 	  	super( props ) 
 
 	  	this.state = {
-            identificationType: 'nit',
+            identificationType: 'cedula',
             showError: false
 	  	}
 

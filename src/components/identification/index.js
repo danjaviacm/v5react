@@ -45,8 +45,8 @@ export default class Identification extends Component {
         e.preventDefault()
 
         let identificationReference = this.refs.identification.value
-
-        identificationReference.length < 7 ? this.setState({ showError: true }) : this.setState({ showError: false })
+ 
+        identificationReference.length < 7 || parseInt( identificationReference ) == 0 ? this.setState({ showError: true }) : this.setState({ showError: false })
 
     }
 

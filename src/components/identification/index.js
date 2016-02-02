@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
-import InputElement from 'react-input-mask'
+import $ from 'jquery'
 import _ from 'lodash'
 
 
@@ -12,24 +12,43 @@ export default class Identification extends Component {
 	  	super( props ) 
 
 	  	this.state = {
-	  		selected: '',
-            identificationType: 'cedula_extranjeria'
+            identificationType: 'nit',
+            showError: false
 	  	}
 
 	  	context.router
   	}
 
-  	isActive ( value ) {
-    	return `btnuj btn-icon-content ${ (( value === this.state.selected ) ? 'active': 'default' ) }`
+  	componentDidMount () {
+
+        $( '.identification' ).keydown( ( key ) => {
+            if ( key.keyCode != 8 && ( key.keyCode < 48 || key.keyCode > 57 ) ) return false
+        })
+
+        $( '.externalIdentification' ).keydown( ( e ) => {
+
+            if ( e.keyCode != 8 ) {
+
+                let regex = new RegExp( "^[a-zA-Z0-9]+$" )
+                let key = String.fromCharCode( ! e.charCode ? e.which : e.charCode )
+
+                if ( ! regex.test( key ) ) {
+                    e.preventDefault()
+                    return false
+                }
+            }
+        })
   	}
 
-    selectOption ( option ) {
+    handleSubmit ( e ) {
+        
+        e.preventDefault()
+
+        let identificationReference = this.refs.identification.value
+
+        identificationReference.length < 7 ? this.setState({ showError: true }) : this.setState({ showError: false })
 
     }
-
-  	componentWillMount () {
-
-  	}
 
   	continue ( filter ) {
 
@@ -46,17 +65,17 @@ export default class Identification extends Component {
                     <h1>¿Cuál es tu número de identificación?</h1>
                     <h3 style={{ marginTop: '-34px', marginBottom: '34px' }}>Esta información nos permitirá conocer si eres elegible para descuentos especiales.</h3>
                 </header>
-                <form name="_form" className="step-identification__form">
+                <form name="_form" className="step-identification__form" onSubmit={ this.handleSubmit.bind( this ) }>
                     <div className="form-group">
                         <div className="row">
                             <div className="col-xs-6 col-xs-offset-3">
-                                { identificationType ? <InputElement {...this.props} className="form-control upper" autoFocus style={{ textAlign: 'center', color: '#777' }} placeholder="Número de identificación" maxLength="12" mask="999999999999" maskChar=""/> : null }
-                                { ! identificationType ? <input autoFocus style={{ textAlign: 'center', color: '#777' }} className="form-control upper" type="text" placeholder="Número de identificación" pattern="[a-zA-Z0-9]{5,12}" maxLength="12" /> : null }
-                                <span className="block-error" ng-show="errorId">Debes ingresar una identificación.</span>
+                                { identificationType ? <input autoFocus ref="identification" style={{ textAlign: 'center', color: '#777' }} className="form-control upper identification" type="text" placeholder="Número de identificación" pattern="[0-9]{5,12}" maxLength="12" /> : null }
+                                { ! identificationType ? <input autoFocus ref="identification" style={{ textAlign: 'center', color: '#777' }} className="form-control upper externalIdentification" type="text" placeholder="Número de identificación" pattern="[a-zA-Z0-9]{5,12}" maxLength="12" /> : null }
+                                { this.state.showError ? <span className="block-error" >{ this.state.identificationType == 'nit' ? 'Debes ingresar una identificación válida, sin dígito de verificación.' : 'Debes ingresar una identificación válida.' }</span> : null }
                             </div>
                         </div>
                     </div>
-                <button className="btn btn-orange upper" ng-click="continue()">Continuar</button>
+                    <button className="btn btn-orange upper">Continuar</button>
                 </form>
             </div>
 	    )

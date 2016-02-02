@@ -108,7 +108,7 @@ export default class VehicleLocation extends Component {
 		            </div>
 		        </div> : null }
 
-		        <button ng-show="vehicle_is_zero_km == 1" className="btn btn-orange upper" onClick={ this.continue.bind( this ) }>Continuar</button>
+		        { this.state.showFasecolda ? <button ng-show="vehicle_is_zero_km == 1" className="btn btn-orange upper" onClick={ this.continue.bind( this ) }>Continuar</button> : null }
 		    </div>
 	    )
   	}

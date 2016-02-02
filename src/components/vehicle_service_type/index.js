@@ -19,7 +19,7 @@ export default class VehicleServiceType extends Component {
   	}
 
   	isActive ( value ) {
-    	return 'btnuj btn-icon-content ' + (( value === this.state.selected ) ? 'active': 'default' )
+    	return `btnuj btn-icon-content ${ (( value === this.state.selected ) ? 'active': 'default' ) }`
   	}
 
   	componentWillMount () {

@@ -16,7 +16,9 @@ export default class VehicleCity extends Component {
             vehicleLine: 'LT',
             vehicleModel: '1998',
 	  		selected: '',
-            option: ''
+            option: '',
+            errorEmpty: false,
+            errorInvalid: false
 	  	}
 
 	  	context.router
@@ -85,14 +87,14 @@ export default class VehicleCity extends Component {
                     <div className="row">
                          <div className="col-xs-6 col-xs-offset-3">
 
-                            <InputCompletion options={cities} name="cities_2">
+                            <InputCompletion options={ cities } name="cities_2">
                                 <input type="text" id="city" placeholder="Escribe el nombre de la ciudad..." className="form-control form-control-small"/>
                             </InputCompletion>
 
-                            <div className="block-error block-error-0">Debes ingresar la ciudad de circulación del vehiculo. <i
-                                className="fa fa-exclamation-circle"></i><br/></div>
-                            <div className="block-error block-error-valid">Debes ingresar una ciudad valida, por ejemplo (Bogotá, Bogota D.C., Colombia). <i
-                                className="fa fa-exclamation-circle"></i><br/></div>
+                            { this.state.errorEmpty ? <div className="block-error block-error-0">Debes ingresar la ciudad de circulación del vehiculo. <i
+                                className="fa fa-exclamation-circle"></i><br/></div> : null }
+                            { this.state.errorInvalid ? <div className="block-error block-error-valid">Debes ingresar una ciudad valida, por ejemplo (Bogotá, Bogota D.C., Colombia). <i
+                                className="fa fa-exclamation-circle"></i><br/></div> : null }
                         </div>
                     </div>
                     <span className="help-block small" style={{ color: '#f0f0f0' }}>Escribe las tres primeras letras donde circula tu auto y elige la opción.</span>

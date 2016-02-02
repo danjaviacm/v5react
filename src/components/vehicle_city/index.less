@@ -1,0 +1,38 @@
+.step-vehicle-city {
+
+	text-align: center;
+
+	&__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+    		display: block;
+    		margin: 30px;
+
+    		span {
+
+    			&:hover,
+	    		&:active,
+	    		&.active {
+	    			background: #fff;
+	    			color: #39c;
+    			}
+    		}
+		}
+	}
+
+	&__form {
+		> div:after {
+			content: "";
+			display: table;
+			clear: both;
+		}
+	}
+}
+
+#city {
+	border: 2px solid #39c;
+    box-shadow: none;
+}

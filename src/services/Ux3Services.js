@@ -39,6 +39,13 @@ class Ux3Services {
         })
     }
 
+    getVehiclePriceFromFasecolda ( idModel, fasecoldaCode ) {
+        return request({
+            url: `${url}fasecolda/get_price_from_fasecolda/?fabrication_year=${idModel}&fasecolda=${fasecoldaCode}`,
+            type: 'json'
+        })
+    }
+
     getInfoHidden(query_registration) {
         return request({
             url: `${url}api/v1/soat-v1/vehicle-total-info-hidden/${query_registration}/`,

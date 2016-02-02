@@ -15,6 +15,8 @@ import VehicleModel from './vehicle_model'
 import VehicleLine from './vehicle_line'
 import VehicleReference from './vehicle_reference'
 import VehicleCompleteReference from './vehicle_complete_reference'
+import VehicleLocation from './vehicle_location'
+import VehicleServiceType from './vehicle_service_type'
 import Footer from './footer'
 import App from './app'
 
@@ -33,6 +35,8 @@ export default class Root extends Component {
 					<Route path='/linea-vehiculo' component={VehicleLine} />
 					<Route path='/referencia-vehiculo' component={VehicleReference} />
 					<Route path='/referencia-completa-vehiculo' component={VehicleCompleteReference} />
+					<Route path='/ubicacion-vehiculo' component={VehicleLocation} />
+					<Route path='/tipo-servicio-vehiculo' component={VehicleServiceType} />
 					<Route path='/some' component={Footer} />
 					<Route path='*' component={Test} />
 				</Route>

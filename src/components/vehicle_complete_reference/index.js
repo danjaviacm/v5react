@@ -20,7 +20,6 @@ export default class VehicleCompleteReference extends Component {
   			.then(( data ) => {
 
                 this.setState({ completeReferences: data })
-                console.log( data )
 
             }).catch(( error ) => {
                 trackJs.track( JSON.stringify( error ))

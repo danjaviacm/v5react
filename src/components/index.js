@@ -21,6 +21,8 @@ import VehicleCity from './vehicle_city'
 import IdentificationType from './identification_type'
 import Identification from './identification'
 import CompleteName from './complete_name'
+import Sex from './sex'
+import Birth from './birth'
 import Footer from './footer'
 import App from './app'
 
@@ -45,6 +47,8 @@ export default class Root extends Component {
 					<Route path='/tipo-identificacion' component={IdentificationType} />
 					<Route path='/identificacion' component={Identification} />
 					<Route path='/nombre-completo' component={CompleteName} />
+					<Route path='/sexo' component={Sex} />
+					<Route path='/fecha-de-nacimiento' component={Birth} />
 					<Route path='/some' component={Footer} />
 					<Route path='*' component={Test} />
 				</Route>

@@ -23,6 +23,20 @@ export default class CompleteName extends Component {
 
   	componentDidMount () {
 
+        $( '.firstname' ).keydown( ( e ) => {
+
+            if ( e.keyCode != 8 ) {
+
+                let regex = new RegExp( "^[a-zA-Z0-9]+$" )
+                let key = String.fromCharCode( ! e.charCode ? e.which : e.charCode )
+
+                if ( ! regex.test( key ) ) {
+                    e.preventDefault()
+                    return false
+                }
+            }
+        })
+
         $( '.lastname' ).keydown( ( e ) => {
 
             if ( e.keyCode != 8 ) {
@@ -50,8 +64,20 @@ export default class CompleteName extends Component {
 
   	continue ( filter ) {
 
-        let nameOrSocial = this.refs.name.value.trim()
-        let lastname = this.refs.lastname.value.trim()
+        let nameOrSocial = this.refs.firstname.value.trim()
+
+        // Validate socialName
+        nameOrSocial.length < 3 && this.state.identification_type == 'nit' ?
+            this.setState({ errorSocial: true }) : this.setState({ errorSocial: false }) 
+        
+        // Validate name
+        if ( this.state.identification_type != 'nit' ) {
+
+            let lastname = this.refs.lastname.value.trim()
+
+            nameOrSocial.length < 3 ? this.setState({ errorFirst: true }) : this.setState({ errorFirst: false })
+            lastname.length < 3 ? this.setState({ errorLast: true }) : this.setState({ errorLast: false })
+        }
 
   		this.setState({ selected: filter })
   	}
@@ -68,7 +94,7 @@ export default class CompleteName extends Component {
                     <div className="form-group">
                         <div className="row">
                             <div className="col-xs-6 col-xs-offset-3">
-                                <input autoFocus ref="firstname" style={{ textAlign: 'center', color: '#777' }} className="form-control" type="text" placeholder="Nombre"></input>
+                                <input autoFocus ref="firstname" style={{ textAlign: 'center', color: '#777' }} className="form-control firstname" type="text" placeholder="Nombre"></input>
                                 { this.state.errorFirst ? <span className="block-error">Debes ingresar tu nombre.</span> : null }
                                 { this.state.errorSocial ? <span className="block-error">Debes ingresar la razón social de tu empresa.</span> : null }
                             </div>

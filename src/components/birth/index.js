@@ -108,7 +108,7 @@ export default class Birth extends Component {
 
         let all_values = []
 
-        for( let i = 1; i <= this.getMonthDays( this.state.month, this.state.year ); i++ ) {
+        for ( let i = 1; i <= this.getMonthDays( this.state.month, this.state.year ); i++ ) {
             all_values.push( i )
         }
 

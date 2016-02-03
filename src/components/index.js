@@ -24,6 +24,7 @@ import CompleteName from './complete_name'
 import Sex from './sex'
 import Birth from './birth'
 import Email from './email'
+import ContactNumbers from './contact_numbers'
 import Footer from './footer'
 import App from './app'
 
@@ -51,7 +52,7 @@ export default class Root extends Component {
 					<Route path='/sexo' component={Sex} />
 					<Route path='/fecha-de-nacimiento' component={Birth} />
 					<Route path='/correo-electronico' component={Email} />
-					<Route path='/some' component={Footer} />
+					<Route path='/numeros-de-contacto' component={ContactNumbers} />
 					<Route path='*' component={Test} />
 				</Route>
 			</Router>

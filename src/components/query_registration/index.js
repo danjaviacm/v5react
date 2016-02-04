@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 
 // Needed Components
 
-export default class QueryRegistration extends Component {
+export default class QueryRegistration extends React.Component {
 
   	constructor ( props, context ) {
   		
@@ -20,6 +20,12 @@ export default class QueryRegistration extends Component {
         let plate = this.refs.plate.value.trim()
 
         this.setState({ loadingUj: true })
+        
+        this.props.history.pushState( null, '/tipo-vehiculo' )
+    }
+
+    noPlate () {
+        this.props.history.pushState( null, '/tipo-vehiculo' )
     }
 
   	render() {
@@ -46,7 +52,7 @@ export default class QueryRegistration extends Component {
 
                 	<div className="col-xs-12 step-query-registration__success">
                     	<br/>
-                    	<a className="btn btn-success" href="https://seguros.comparamejor.com/seguros-para-vehiculos/v5/#/tipo-vehiculo" style={{ color: '#fff' }}>Cotizar vehículo sin placa</a><br/>
+                    	<a className="btn btn-success" onClick={ this.noPlate.bind( this ) } style={{ color: '#fff' }}>Cotizar vehículo sin placa</a><br/>
                 	</div>
             	</div>
 	            <div style={{ clear: 'both' }}></div>

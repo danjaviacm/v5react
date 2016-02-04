@@ -79,7 +79,19 @@ export default class PromoCode extends Component {
 
   	continue ( filter ) {
 
+  		let OppData = ''
+
   		! this.state.terms ? alert( 'Debes aceptar los términos y condiciones para realizar tu cotización.' ) : this.setState({ working: true })
+
+  		Ux3Services.createOppFinal( OppData )
+  			.then(( data ) => {
+
+  				console.log( data )
+
+            }).catch(( error ) => {
+                trackJs.track( JSON.stringify( error ))
+                console.log( error )
+            })
   	}
 
   	render() {

@@ -14,8 +14,8 @@ export default class VehicleType extends Component {
 
   	componentDidMount () {
 
-  		let UJData = JSON.parse( store.get( 'UJDATA' ) )
-  		
+  		let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
+
   		UJData.vehicle_body ? this.setState({ vehicle_body: UJData.vehicle_body }) : null
   	}
 

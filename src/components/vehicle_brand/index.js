@@ -17,7 +17,8 @@ export default class VehicleBrand extends Component {
     		brands: [],
     		alphabeticalList: [],
     		popular_brands: [],
-    		showMore: false
+    		showMore: false,
+            vehicle_brand: ''
     	}
 
     	this.fetchBrands = this.fetchBrands.bind( this )
@@ -80,6 +81,37 @@ export default class VehicleBrand extends Component {
 	
   	}
 
+    isActive ( value ) {
+        return `btnuj ${ (( value === this.state.vehicle_brand ) ? 'active': 'default' ) }`
+    }
+
+    selectChoice ( filter ) {
+        this.setState({ vehicle_brand: filter }, () => this.continue() )
+    }
+
+    continue () {
+
+        let UJData = {}
+
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.vehicle_brand = this.state.vehicle_brand
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else {
+
+            UJData.vehicle_brand = this.state.vehicle_brand
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        this.context.router.push( '/modelo-vehiculo' )
+
+    }
+
   	render() {
 
 	    return (
@@ -112,7 +144,7 @@ export default class VehicleBrand extends Component {
 				                
 				                { collection.brands.map( ( brand, key ) => {
 				                	return <li key={ key } className="list-brands__item">
-				                        <span className="btnuj">
+				                        <span className={ this.isActive( brand.name ) } onClick={ this.selectChoice.bind( this, brand.name ) }>
 				                            <span className="text">{ brand.name }</span>
 				                        </span>
 				                    </li>
@@ -126,5 +158,8 @@ export default class VehicleBrand extends Component {
 		    </div>
 	    )
   	}
+}
 
+VehicleBrand.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

@@ -44,7 +44,7 @@ export default class PromoCode extends Component {
 
   	enableCode () {
 
-  		this.state.has_promocode == 'yes' ? this.setState({ flag_promocode: true }) : this.setState({ flag_promocode: false, invalid_promocode: false })
+  		this.state.has_promocode == 'yes' ? this.setState({ flag_promocode: true }) : this.setState({ flag_promocode: false, invalid_promocode: false, valid_promocode: false })
   	}
 
   	validatePromocode ( e ) {

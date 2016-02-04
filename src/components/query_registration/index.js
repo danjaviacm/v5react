@@ -21,11 +21,11 @@ export default class QueryRegistration extends Component {
 
         this.setState({ loadingUj: true })
 
-        this.props.history.pushState( null, '/tipo-vehiculo' )
+        // this.context.router.push( '/tipo-vehiculo' )
     }
 
     noPlate () {
-        this.props.history.pushState( null, '/tipo-vehiculo' )
+        this.context.router.push( '/tipo-vehiculo' )
     }
 
   	render() {
@@ -59,4 +59,8 @@ export default class QueryRegistration extends Component {
 	        </section>
     	)
   	}
+}
+
+QueryRegistration.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

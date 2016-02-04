@@ -14,8 +14,6 @@ export default class App extends Component {
 
 		this.state = {}
 
-		context.router
-
 	}
 
 	render() {

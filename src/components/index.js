@@ -33,6 +33,14 @@ import App from './app'
 
 // Root component
 export default class Root extends Component {
+
+	constructor ( props, context ) {
+
+		super( props )
+
+		this.state = {}
+	}
+
 	render() {
 		return (
 			<Router history={hashHistory}>

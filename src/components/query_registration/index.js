@@ -21,6 +21,8 @@ export default class QueryRegistration extends Component {
 
         this.setState({ loadingUj: true })
 
+        globalState.callback({ serverWait: true })
+
         // this.context.router.push( '/tipo-vehiculo' )
     }
 

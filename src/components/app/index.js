@@ -6,17 +6,30 @@ import Steps from '../steps'
 import Loading from '../loading'
 import Footer from '../footer'
 
+// Parental states
+window.globalState = {}
+
 export default class App extends Component {
 
 	constructor ( props, context ) {
 
 		super( props )
 
-		this.state = {}
+		this.state = {
+			serverWait: false
+		}
 
 	}
 
+	componentWillMount () {
+
+		globalState.callback = ( data ) => {
+			this.setState( data )
+		}
+	}
+
 	render() {
+
 		return (
 			<div>
 				<Header />
@@ -36,7 +49,7 @@ export default class App extends Component {
 								</a>
 							</div>
 
-							<Loading />
+							{ this.state.serverWait ? <Loading /> : null }
 
 							<a href="" className="ta-left white back-step visible-xs">
 								<i className="fa fa-chevron-left"></i><i className="fa fa-chevron-left"></i> Paso anterior

@@ -35,8 +35,6 @@ export default class Brand extends React.Component {
 
         let UJData = {}
 
-        console.log( this.state.vehicle_brand )
-
         if ( store.has( 'UJDATA' ) ) {
 
             UJData = JSON.parse( store.get( 'UJDATA' ) ) 

@@ -27,7 +27,7 @@ export default class Brand extends React.Component {
         return `brand ${ (( value === this.state.vehicle_brand ) ? 'active': 'default' ) }`
     }
 
-    selectChoise ( filter ) {
+    selectChoice ( filter ) {
         this.setState({ vehicle_brand: filter }, () => this.continue() )
     }
 
@@ -57,7 +57,7 @@ export default class Brand extends React.Component {
   	render() {
   		
 	    return (
-	    	<div className={ this.isActive( this.props.brand.name ) } key={ this.props.key } onClick={ this.selectChoise.bind( this, this.props.brand.name ) }>
+	    	<div className={ this.isActive( this.props.brand.name ) } key={ this.props.key } onClick={ this.selectChoice.bind( this, this.props.brand.name ) }>
                 <div className="container-img">
                     <img src={ this.props.brand.image } alt={ this.props.brand.name } className="img-responsive"/>
                 </div>

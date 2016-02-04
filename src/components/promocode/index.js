@@ -110,7 +110,7 @@ export default class PromoCode extends Component {
 		                        <input ref="promocode" style={{ textAlign: 'center' }} className="form-control" type="text" placeholder="Código promocional"/>
 		                    </div>
 		                    <div className="col-xs-2">
-		                        <button className="btn btn-default" onClick={ this.validatePromocode.bind( this ) }>Consultar</button>
+		                        <button className="btn btn-default check-promocode" onClick={ this.validatePromocode.bind( this ) }>Consultar</button>
 		                    </div>
 		                </div>
 

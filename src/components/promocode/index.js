@@ -68,7 +68,7 @@ export default class PromoCode extends Component {
   						conditions_promocode: data.conditions,
   						valid_promocode: true,
   						invalid_promocode: false,
-  						title_promocode: this.refs.promocode.value.trim().toUpperCase() 
+  						title_promocode: '¡Código promocional válido!'
   					}) : this.setState({ invalid_promocode: true, valid_promocode: false })
 
             }).catch(( error ) => {

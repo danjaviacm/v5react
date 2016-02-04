@@ -1,8 +1,8 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 
 // Needed Components
 
-export default class QueryRegistration extends React.Component {
+export default class QueryRegistration extends Component {
 
   	constructor ( props, context ) {
   		
@@ -20,7 +20,7 @@ export default class QueryRegistration extends React.Component {
         let plate = this.refs.plate.value.trim()
 
         this.setState({ loadingUj: true })
-        
+
         this.props.history.pushState( null, '/tipo-vehiculo' )
     }
 

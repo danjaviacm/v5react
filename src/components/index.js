@@ -27,6 +27,7 @@ import Email from './email'
 import ContactNumbers from './contact_numbers'
 import CurrentSituation from './current_situation'
 import WhenNeedPolicy from './when_need_policy'
+import PromoCode from './promocode'
 import Footer from './footer'
 import App from './app'
 
@@ -57,6 +58,7 @@ export default class Root extends Component {
 					<Route path='/numeros-de-contacto' component={ContactNumbers} />
 					<Route path='/situacion-actual' component={CurrentSituation} />
 					<Route path='/cuando-necesitas-tu-poliza' component={WhenNeedPolicy} />
+					<Route path='/codigo-promocional' component={PromoCode} />
 					<Route path='*' component={Test} />
 				</Route>
 			</Router>

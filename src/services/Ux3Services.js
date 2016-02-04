@@ -46,9 +46,16 @@ class Ux3Services {
         })
     }
 
+    // getInfoHidden(query_registration) {
+    //     return request({
+    //         url: `${url}api/v1/soat-v1/vehicle-total-info-hidden/${query_registration}/`,
+    //         type: 'json'
+    //     })
+    // }
+
     getInfoHidden(query_registration) {
         return request({
-            url: `${url}api/v1/soat-v1/vehicle-total-info-hidden/${query_registration}/`,
+            url: `${url}api/v1/soat-v1/vehicle-total-info/${query_registration}/`,
             type: 'json'
         })
     }

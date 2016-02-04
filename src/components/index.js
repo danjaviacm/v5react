@@ -38,7 +38,7 @@ export default class Root extends Component {
 			<Router history={hashHistory}>
 				<Redirect from="/" to="/consultar-placa" />
 				<Route path='/' component={App}>
-					<IndexRoute component={Test} />
+					<IndexRoute component={QueryRegistration} />
 					<Route path='/consultar-placa' component={QueryRegistration} />
 					<Route path='/tipo-vehiculo' component={VehicleType} />
 					<Route path='/marca-vehiculo' component={VehicleBrand} />

@@ -16,7 +16,9 @@ export default class PromoCode extends Component {
 			working: false,
 			in_newsletter: true,
 			terms: false,
-			flag_promocode: false
+			flag_promocode: false,
+			description_promocode: '',
+			conditions_promocode: ''
 	  	}
   	}
 
@@ -52,7 +54,7 @@ export default class PromoCode extends Component {
   		let promocode = this.refs.promocode.value.trim()
 
   		if ( ! promocode ) {
-  			
+
   			alert( 'Olvidaste escribir el código promocional' )
   			return
   		}
@@ -60,9 +62,14 @@ export default class PromoCode extends Component {
   		Ux3Services.validatePromocode( promocode )
   			.then(( data ) => {
 
-  				data.error ? this.setState({ invalid_promocode: true }) : null
-
-                this.setState({ lines: data })
+  				data.error == false ? 
+  					this.setState({ 
+  						description_promocode: data.description, 
+  						conditions_promocode: data.conditions,
+  						valid_promocode: true,
+  						invalid_promocode: false,
+  						title_promocode: this.refs.promocode.value.trim().toUpperCase() 
+  					}) : this.setState({ invalid_promocode: true, valid_promocode: false })
 
             }).catch(( error ) => {
                 trackJs.track( JSON.stringify( error ))
@@ -100,7 +107,7 @@ export default class PromoCode extends Component {
 		            <div className="form-group">
 		                <div className="row">
 		                    <div className="col-xs-6">
-		                        <input ng-disabled="valid_promocode" ref="promocode" style={{ textAlign: 'center' }} className="form-control" type="text" placeholder="Código promocional"/>
+		                        <input ref="promocode" style={{ textAlign: 'center' }} className="form-control" type="text" placeholder="Código promocional"/>
 		                    </div>
 		                    <div className="col-xs-2">
 		                        <button className="btn btn-default" onClick={ this.validatePromocode.bind( this ) }>Consultar</button>
@@ -114,10 +121,10 @@ export default class PromoCode extends Component {
 		            <h1>¡Código promocial inválido!</h1>
 		        </div> : null }
 		        
-		        { this.state.valid_promocode ? <div ng-show="valid_promocode" className="info-promocode">
-		            <h1>title_promocode here</h1>
-		            <p className="description"> description_promocode here</p>
-		            <p className="conditions" ng-bind-html="conditions_promocode"> </p>
+		        { this.state.valid_promocode ? <div className="info-promocode step-promocode__invalid">
+		            <h1>{ this.state.title_promocode }</h1>
+		            <p className="description"> { this.state.description_promocode } </p>
+		            <p className="conditions"> { this.state.conditions_promocode } </p>
 		        </div> : null }
 
 		        <br/>
@@ -134,8 +141,8 @@ export default class PromoCode extends Component {
 		            </label>
 		        </div>
 
-		        { ! this.state.working ? <button className="btn btn-success upper" ng-hide="working" onClick={ this.continue.bind( this ) }>Cotizar</button> : null }
-		        { this.state.working ? <span className="btn btn-success upper" ng-show="working"><i className="fa fa-spinner fa-spin"></i> Cotizar</span> : null }
+		        { ! this.state.working ? <button className="btn btn-success upper" onClick={ this.continue.bind( this ) }>Cotizar</button> : null }
+		        { this.state.working ? <span className="btn btn-success upper"><i className="fa fa-spinner fa-spin"></i> Cotizar</span> : null }
 		    </div>
 	    )
   	}

@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
+import store from 'store2'
 
+// Additional components
 import Brand from '../brand'
 
 export default class VehicleBrand extends Component {
@@ -27,7 +29,7 @@ export default class VehicleBrand extends Component {
   		let popular_brands = []
   		let alphabeticalList = []
 
-  		Ux3Services.getBrandsByBody( 'CAMIONETA' )
+  		Ux3Services.getBrandsByBody( this.state.vehicle_body )
 	  		.then(( data ) => {
 
                 this.setState({ brands: data })
@@ -51,7 +53,7 @@ export default class VehicleBrand extends Component {
                 	})
                 })
 
-                // Populate poular brands
+                // Populate popular brands
                 this.setState({
         			popular_brands: popular_brands,
         			alphabeticalList: alphabeticalList
@@ -71,8 +73,11 @@ export default class VehicleBrand extends Component {
 
   	componentWillMount () {
 
-  		// Get all brands
-		this.fetchBrands()  	
+        let UJData = JSON.parse( store.get( 'UJDATA' ) )
+        
+        if ( UJData.vehicle_body ) 
+            this.setState({ vehicle_body: UJData.vehicle_body }, () => this.fetchBrands() )
+	
   	}
 
   	render() {

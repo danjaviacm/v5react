@@ -108,6 +108,10 @@ export default class QueryRegistration extends Component {
     }
 
     noPlate () {
+
+        if ( store.has( 'UJDATA' ) )
+            store.remove( 'UJDATA' )
+
         this.context.router.push( '/tipo-vehiculo' )
     }
 

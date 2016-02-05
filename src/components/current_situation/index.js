@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import request from 'reqwest'
-import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
+import store from 'store2'
 
 export default class CurrentSituation extends Component {
 
@@ -14,26 +13,37 @@ export default class CurrentSituation extends Component {
 	  	}
   	}
 
-  	componentWillMount () {
-
-  		Ux3Services.getLinesByModel( 'AUTOMOVIL', 'ACURA', '1998' )
-  			.then(( data ) => {
-
-                this.setState({ lines: data })
-
-            }).catch(( error ) => {
-                trackJs.track( JSON.stringify( error ))
-                console.log( error )
-            })
-  	}
+    componentWillMount () {
+        
+        store.has( 'UJDATA' ) ? 
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
+    }
 
     isActive ( value ) {
         return `btnuj ${ (( value === this.state.current_situation ) ? 'active': 'default' ) }`
     }
 
-  	continue ( filter ) {
+    selectChoice ( filter ) {
+        this.setState({ current_situation: filter }, () => this.continue() )
+    }
 
-  		this.setState({ current_situation: filter })
+  	continue () {
+
+  		let UJData = {}
+
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.current_situation = this.state.current_situation
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else
+            this.context.router.push( '/consultar-placa' )
+
+        // Next step
+        this.context.router.push( '/cuando-necesitas-tu-poliza' )
   	}
 
   	render() {
@@ -44,27 +54,27 @@ export default class CurrentSituation extends Component {
 		        </header>
 		        <ul className="unstyled-list v-list step-current-situation__list">
 		            <li className="step-current-situation__item">
-		                <span className={ this.isActive( 'buying_car_loan' ) } onClick={ this.continue.bind( this, 'buying_car_loan' ) }>
+		                <span className={ this.isActive( 'buying_car_loan' ) } onClick={ this.selectChoice.bind( this, 'buying_car_loan' ) }>
 		                    <span className="text">Estoy comprando vehículo con un préstamo</span>
 		                </span>
 		            </li>
 		            <li className="step-current-situation__item">
-		                <span className={ this.isActive( 'buying_car_without_loan' ) } onClick={ this.continue.bind( this, 'buying_car_without_loan' ) }>
+		                <span className={ this.isActive( 'buying_car_without_loan' ) } onClick={ this.selectChoice.bind( this, 'buying_car_without_loan' ) }>
 		                    <span className="text">Estoy comprando vehículo sin préstamo</span>
 		                </span>
 		            </li>
 		            <li className="step-current-situation__item">
-		                <span className={ this.isActive( 'insurance_expired_expire_soon' ) } onClick={ this.continue.bind( this, 'insurance_expired_expire_soon' ) }>
+		                <span className={ this.isActive( 'insurance_expired_expire_soon' ) } onClick={ this.selectChoice.bind( this, 'insurance_expired_expire_soon' ) }>
 		                    <span className="text">Mi seguro venció o vencerá pronto</span>
 		                </span>
 		            </li>
 		            <li className="step-current-situation__item">
-		                <span className={ this.isActive( 'my_vehicle_is_not_insured' ) } onClick={ this.continue.bind( this, 'my_vehicle_is_not_insured' ) }>
+		                <span className={ this.isActive( 'my_vehicle_is_not_insured' ) } onClick={ this.selectChoice.bind( this, 'my_vehicle_is_not_insured' ) }>
 		                    <span className="text">Mi vehículo no está asegurado y deseo conocer opciones</span>
 		                </span>
 		            </li>
 		            <li className="step-current-situation__item">
-		                <span className={ this.isActive( 'curiosity_quote' ) } onClick={ this.continue.bind( this, 'curiosity_quote' ) }>
+		                <span className={ this.isActive( 'curiosity_quote' ) } onClick={ this.selectChoice.bind( this, 'curiosity_quote' ) }>
 		                    <span className="text">Sólo cotizo por curiosidad</span>
 		                </span>
 		            </li>
@@ -72,5 +82,8 @@ export default class CurrentSituation extends Component {
 		    </div>
 	    )
   	}
+}
 
+CurrentSituation.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

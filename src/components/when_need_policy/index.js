@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import request from 'reqwest'
-import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
+import store from 'store2'
+
 
 export default class WhenNeedPolicy extends Component {
 
@@ -17,26 +17,37 @@ export default class WhenNeedPolicy extends Component {
 	  	}
   	}
 
-  	componentWillMount () {
-
-  		Ux3Services.getLinesByModel( 'AUTOMOVIL', 'ACURA', '1998' )
-  			.then(( data ) => {
-
-                this.setState({ lines: data })
-
-            }).catch(( error ) => {
-                trackJs.track( JSON.stringify( error ))
-                console.log( error )
-            })
-  	}
+    componentWillMount () {
+        
+        store.has( 'UJDATA' ) ? 
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
+    }
 
     isActive ( value ) {
         return `btnuj ${ (( value === this.state.when_need_policy ) ? 'active': 'default' ) }`
     }
 
-  	continue ( filter ) {
+    selectChoice ( filter ) {
+        this.setState({ when_need_policy: filter }, () => this.continue() )
+    }
 
-  		this.setState({ when_need_policy: filter })
+  	continue () {
+
+  		let UJData = {}
+
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.when_need_policy = this.state.when_need_policy
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else
+            this.context.router.push( '/consultar-placa' )
+
+        // Next step
+        this.context.router.push( '/codigo-promocional' )
   	}
 
   	render() {
@@ -47,22 +58,22 @@ export default class WhenNeedPolicy extends Component {
 		        </header>
 		        <ul className="unstyled-list v-list step-when-need-policy__list">
 		            <li className="step-when-need-policy__item">
-		                <span className={ this.isActive( 'inmediately' ) } onClick={ this.continue.bind( this, 'inmediately' ) }>
+		                <span className={ this.isActive( 'inmediately' ) } onClick={ this.selectChoice.bind( this, 'inmediately' ) }>
 		                    <span className="text">Inmediatamente</span>
 		                </span>
 		            </li>
 		            <li className="step-when-need-policy__item">
-		                <span className={ this.isActive( 'in_a_week_or_less' ) } onClick={ this.continue.bind( this, 'in_a_week_or_less' ) }>
+		                <span className={ this.isActive( 'in_a_week_or_less' ) } onClick={ this.selectChoice.bind( this, 'in_a_week_or_less' ) }>
 		                    <span className="text">En una semana o menos</span>
 		                </span>
 		            </li>
 		            <li className="step-when-need-policy__item">
-		                <span className={ this.isActive( 'between_one_and_two_weeks' ) } onClick={ this.continue.bind( this, 'between_one_and_two_weeks' ) }>
+		                <span className={ this.isActive( 'between_one_and_two_weeks' ) } onClick={ this.selectChoice.bind( this, 'between_one_and_two_weeks' ) }>
 		                    <span className="text">Entre 1 y 2 semanas</span>
 		                </span>
 		            </li>
 		            <li className="step-when-need-policy__item">
-		                <span className={ this.isActive( 'in_a_month_or_more' ) } onClick={ this.continue.bind( this, 'in_a_month_or_more' ) }>
+		                <span className={ this.isActive( 'in_a_month_or_more' ) } onClick={ this.selectChoice.bind( this, 'in_a_month_or_more' ) }>
 		                    <span className="text">En un mes o más</span>
 		                </span>
 		            </li>
@@ -70,5 +81,8 @@ export default class WhenNeedPolicy extends Component {
 		    </div>
 	    )
   	}
+}
 
+WhenNeedPolicy.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import request from 'reqwest'
-import Ux3Services from '../../services/Ux3Services'
 import $ from 'jquery'
 import _ from 'lodash'
+import store from 'store2'
 
 
 export default class CompleteName extends Component {
@@ -12,14 +12,22 @@ export default class CompleteName extends Component {
 	  	super( props ) 
 
 	  	this.state = {
-            identification_type: 'cedula',
+            identification_type: '',
             errorFirst: false,
             errorSocial: false,
-            errorLast: false
+            errorLast: false,
+            first_name: '',
+            last_name: ''
 	  	}
 
 	  	context.router
   	}
+
+    componentWillMount () {
+        
+        store.has( 'UJDATA' ) ? 
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
+    }
 
   	componentDidMount () {
 
@@ -56,30 +64,61 @@ export default class CompleteName extends Component {
         
         e.preventDefault()
 
-        let identificationReference = this.refs.identification.value
- 
-        identificationReference.length < 7 || parseInt( identificationReference ) == 0 ? this.setState({ showError: true }) : this.setState({ showError: false })
+        let nameOrSocial = this.refs.firstname.value.trim()
+
+        // Validate socialName
+        if ( nameOrSocial.length < 3 && this.state.identification_type == 'nit' )
+            this.setState({ errorSocial: true }) 
+        
+        // Validate name
+        else if ( this.state.identification_type != 'nit' ) {
+
+            let lastname = this.refs.lastname.value.trim()
+
+            // Validate name
+            if ( nameOrSocial.length < 3 ) {
+                this.setState({ errorFirst: true }) 
+                return
+            }
+
+            else
+                this.setState({ errorFirst: false })
+            
+
+            // Validate lastname
+            if ( lastname.length < 3 ) {
+                this.setState({ errorLast: true })
+                return
+            } 
+
+            else 
+                this.setState({ errorLast: false }, () => this.continue() )
+        }
+
+        else
+            this.setState({ errorSocial: false }, () => this.continue() )
 
     }
 
   	continue ( filter ) {
 
-        let nameOrSocial = this.refs.firstname.value.trim()
+        let UJData = {}
 
-        // Validate socialName
-        nameOrSocial.length < 3 && this.state.identification_type == 'nit' ?
-            this.setState({ errorSocial: true }) : this.setState({ errorSocial: false }) 
-        
-        // Validate name
-        if ( this.state.identification_type != 'nit' ) {
+        if ( store.has( 'UJDATA' ) ) {
 
-            let lastname = this.refs.lastname.value.trim()
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.vehicle_service_type = this.state.vehicle_service_type
+            UJData.first_name = this.refs.firstname.value.trim()
+            UJData.last_name = this.refs.lastname ? this.refs.lastname.value.trim() : ''
 
-            nameOrSocial.length < 3 ? this.setState({ errorFirst: true }) : this.setState({ errorFirst: false })
-            lastname.length < 3 ? this.setState({ errorLast: true }) : this.setState({ errorLast: false })
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
         }
 
-  		this.setState({ selected: filter })
+        else
+            this.context.router.push( '/consultar-placa' )
+
+        // Next step
+        this.context.router.push( '/sexo' )
   	}
 
   	render() {
@@ -89,12 +128,12 @@ export default class CompleteName extends Component {
                 { this.state.identification_type == 'nit' ? <header>
                     <h1>Razón social</h1>
                 </header> : null }
-                <form className="step-complete-name__form" onSubmit={ this.continue.bind( this ) }>
+                <form className="step-complete-name__form" onSubmit={ this.handleSubmit.bind( this ) }>
                     { this.state.identification_type != 'nit' ? <h2 style={{ marginTop: '34px' }}>Tu nombre</h2> : null } 
                     <div className="form-group">
                         <div className="row">
                             <div className="col-xs-6 col-xs-offset-3">
-                                <input autoFocus ref="firstname" style={{ textAlign: 'center', color: '#777' }} className="form-control firstname" type="text" placeholder="Nombre"></input>
+                                <input autoFocus ref="firstname" defaultValue={ this.state.first_name || null } style={{ textAlign: 'center', color: '#777' }} className="form-control firstname" type="text" placeholder="Nombre"></input>
                                 { this.state.errorFirst ? <span className="block-error">Debes ingresar tu nombre.</span> : null }
                                 { this.state.errorSocial ? <span className="block-error">Debes ingresar la razón social de tu empresa.</span> : null }
                             </div>
@@ -104,15 +143,18 @@ export default class CompleteName extends Component {
                     { this.state.identification_type != 'nit' ? <div ng-if="identification_type != 'nit'" className="form-group">
                         <div className="row">
                             <div className="col-xs-6 col-xs-offset-3">
-                                <input ref="lastname" style={{ textAlign: 'center', color: '#777' }} className="form-control lastname" type="text" placeholder="Apellido"/>
+                                <input ref="lastname" defaultValue={ this.state.last_name || null } style={{ textAlign: 'center', color: '#777' }} className="form-control lastname" type="text" placeholder="Apellido"/>
                                 { this.state.errorLast ? <span className="block-error">Debes ingresar tu apellido.</span> : null }
                             </div>
                         </div>
                     </div> : null }
-                    <button className="btn btn-orange upper" onClick={ this.continue.bind( this ) }>Continuar</button>
+                    <button className="btn btn-orange upper" onClick={ this.handleSubmit.bind( this ) }>Continuar</button>
                 </form>
             </div>
 	    )
   	}
+}
 
+CompleteName.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

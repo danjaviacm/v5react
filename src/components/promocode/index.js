@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
+import store from 'store2'
 
 export default class PromoCode extends Component {
 
@@ -18,11 +19,15 @@ export default class PromoCode extends Component {
 			terms: false,
 			flag_promocode: false,
 			description_promocode: '',
-			conditions_promocode: ''
+			conditions_promocode: '',
+			promocode: ''
 	  	}
   	}
 
   	componentWillMount () {
+
+  		store.has( 'UJDATA' ) ? 
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
   	}
 
     isActive ( value ) {
@@ -68,7 +73,8 @@ export default class PromoCode extends Component {
   						conditions_promocode: data.conditions,
   						valid_promocode: true,
   						invalid_promocode: false,
-  						title_promocode: '¡Código promocional válido!'
+  						title_promocode: '¡Código promocional válido!',
+  						promocode: promocode
   					}) : this.setState({ invalid_promocode: true, valid_promocode: false })
 
             }).catch(( error ) => {
@@ -92,6 +98,24 @@ export default class PromoCode extends Component {
                 trackJs.track( JSON.stringify( error ))
                 console.log( error )
             })
+
+        let UJData = {}
+
+		if ( store.has( 'UJDATA' ) ) {
+
+			UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+			UJData.promocode = this.state.promocode
+			UJData.in_newsletter = this.state.in_newsletter
+			UJData.terms = this.state.terms
+
+			store.set( 'UJDATA', JSON.stringify( UJData ) )
+		}
+
+		else
+			this.context.router.push( '/consultar-placa' )
+
+		// Next step
+		// this.context.router.push( '/tipo-servicio-vehiculo' )
   	}
 
   	render() {
@@ -158,5 +182,8 @@ export default class PromoCode extends Component {
 		    </div>
 	    )
   	}
+}
 
+PromoCode.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

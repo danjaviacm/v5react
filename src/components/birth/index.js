@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
+import store from 'store2'
 
 export default class Birth extends Component {
 
@@ -10,7 +11,7 @@ export default class Birth extends Component {
 	  	super( props ) 
 
 	  	this.state = {
-            identification_type: 'cedula',
+            identification_type: '',
 	  		selected: '',
             years: [],
             months: [
@@ -21,7 +22,11 @@ export default class Birth extends Component {
             days: [],
             day: new Date().getDate(),
             month: new Date().getMonth(),
-            year: new Date().getFullYear() - 18
+            year: new Date().getFullYear() - 18,
+            date_of_birth: '',
+            selectedYear: '',
+            selectedMonth: '',
+            selectedDay: ''
 	  	}
 
 	  	context.router
@@ -100,6 +105,47 @@ export default class Birth extends Component {
         }
     }
 
+    getMonthOfNumber ( month ) {
+        switch ( month ) {
+            case 1:
+                return 'Enero'
+                break
+            case 2:
+                return 'Febrero'
+                break
+            case 3:
+                return 'Marzo'
+                break
+            case 4:
+                return 'Abril'
+                break
+            case 5:
+                return 'Mayo'
+                break
+            case 6:
+                return 'Junio'
+                break
+            case 7:
+                return 'Julio'
+                break
+            case 8:
+                return 'Agosto'
+                break
+            case 9:
+                return 'Septiembre'
+                break
+            case 10:
+                return 'Octubre'
+                break
+            case 11:
+                return 'Noviembre'
+                break
+            case 12:
+                return 'Diciembre'
+                break
+        }
+    }
+
     getMonthDays ( month, year ) {
         return ( month === 1 && year % 4 === 0 && ( year % 100 !== 0 || year % 400 === 0 )) ? 29 : [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ][ month ]
     }
@@ -119,6 +165,24 @@ export default class Birth extends Component {
 
         this.fillYears()
         this.fillDays()
+
+        store.has( 'UJDATA' ) ? 
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
+
+        // Set birthday for existing user
+        let birthDate = JSON.parse( store.get( 'UJDATA' ) ).date_of_birth
+
+        if ( birthDate.length > 0 ) {
+
+            let date = birthDate.split( '-' )
+            
+            this.setState({ 
+                selectedYear: parseInt( date[ 0 ] ),
+                selectedMonth: this.getMonthOfNumber( parseInt( date[ 1 ] ) ),
+                selectedDay: parseInt( date[ 2 ] )
+            })
+        }
+
   	}
 
     selectYear ( year ) {
@@ -139,8 +203,22 @@ export default class Birth extends Component {
   	continue ( filter ) {
 
         let birthday = this.state.year + '-' + ( this.state.month + 1 ) + '-' + this.state.day 
-        console.log( birthday )
-  		this.setState({ selected: filter })
+        
+        let UJData = {}
+
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.date_of_birth = birthday
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else
+            this.context.router.push( '/consultar-placa' )
+
+        // Next step
+        this.context.router.push( '/correo-electronico' )
   	}
 
   	render() {
@@ -166,7 +244,7 @@ export default class Birth extends Component {
                                 <div className="title-section-inline visible-xs">Año</div>
                                 <div className="squares">
                                     { this.state.years.map( ( year, key ) => {
-                                        return <div className={ this.isActiveYear( year) } key={ key } onClick={ this.selectYear.bind( this, year ) }>
+                                        return <div className={ this.isActiveYear( year ) } key={ key } onClick={ this.selectYear.bind( this, year ) }>
                                             { year }
                                         </div>
                                     })}
@@ -224,5 +302,8 @@ export default class Birth extends Component {
             </div>
 	    )
   	}
+}
 
+Birth.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

@@ -83,23 +83,9 @@ export default class PromoCode extends Component {
             })
   	}
 
-  	continue ( filter ) {
+  	continue () {
 
-  		let OppData = ''
-
-  		! this.state.terms ? alert( 'Debes aceptar los términos y condiciones para realizar tu cotización.' ) : this.setState({ working: true })
-
-  		Ux3Services.createOppFinal( OppData )
-  			.then(( data ) => {
-
-  				console.log( data )
-
-            }).catch(( error ) => {
-                trackJs.track( JSON.stringify( error ))
-                console.log( error )
-            })
-
-        let UJData = {}
+		let UJData = {}
 
 		if ( store.has( 'UJDATA' ) ) {
 
@@ -114,8 +100,19 @@ export default class PromoCode extends Component {
 		else
 			this.context.router.push( '/consultar-placa' )
 
-		// Next step
-		// this.context.router.push( '/tipo-servicio-vehiculo' )
+  		let OppData = ''
+
+  		! this.state.terms ? alert( 'Debes aceptar los términos y condiciones para realizar tu cotización.' ) : this.setState({ working: true })
+
+  		Ux3Services.createOppFinal( OppData )
+  			.then(( data ) => {
+
+  				console.log( data )
+
+            }).catch(( error ) => {
+                trackJs.track( JSON.stringify( error ))
+                console.log( error )
+            })
   	}
 
   	render() {

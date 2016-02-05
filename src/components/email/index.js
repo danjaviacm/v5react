@@ -78,7 +78,7 @@ export default class Email extends Component {
 						<div className="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
 							<div className="input-group">
 								<div className="input-group-addon"><i className="cmuj-letter"></i></div>
-								<input autoFocus style={{ textAlign: 'center', color: '#777' }} onChange={ this.checkMail.bind( this ) } className="form-control" ref="email_address" name="email" type="email" placeholder="E-mail" />
+								<input autoFocus defaultValue={ this.state.email_address || '' } style={{ textAlign: 'center', color: '#777' }} onChange={ this.checkMail.bind( this ) } className="form-control" ref="email_address" name="email" type="email" placeholder="E-mail" />
 							</div>
 							{ this.state.invalidEmail ? <span className="block-error">Ingresa un email válido</span> : null }
 						</div>

@@ -76,23 +76,13 @@ export default class CompleteName extends Component {
             let lastname = this.refs.lastname.value.trim()
 
             // Validate name
-            if ( nameOrSocial.length < 3 ) {
-                this.setState({ errorFirst: true }) 
-                return
-            }
-
-            else
-                this.setState({ errorFirst: false })
+            nameOrSocial.length < 3 ? 
+                this.setState({ errorFirst: true }) : this.setState({ errorFirst: false })
             
 
             // Validate lastname
-            if ( lastname.length < 3 ) {
-                this.setState({ errorLast: true })
-                return
-            } 
-
-            else 
-                this.setState({ errorLast: false }, () => this.continue() )
+            lastname.length < 3 ?
+                this.setState({ errorLast: true }) : this.setState({ errorLast: false }, () => this.continue() )
         }
 
         else

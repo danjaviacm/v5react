@@ -41,6 +41,14 @@ export default class VehicleCity extends Component {
         this.setState({ vehicle_city: filter }, () => this.continue() )
     }
 
+    selectChoiceDropdown ( e ) {
+
+        if ( e.target.value.length < 15 )
+            return
+        
+        this.setState({ vehicle_city: e.target.value }, () => this.continue() )
+    }
+
   	continue () {
 
         let UJData = {}
@@ -57,7 +65,7 @@ export default class VehicleCity extends Component {
             this.context.router.push( '/consultar-placa' )
 
         // Next step
-        this.context.router.push( '/ciudad-vehiculo' )
+        this.context.router.push( '/tipo-identificacion' )
   	}
 
   	render() {
@@ -96,8 +104,8 @@ export default class VehicleCity extends Component {
                     <div className="row">
                          <div className="col-xs-6 col-xs-offset-3">
 
-                            <InputCompletion options={ cities } name="cities_2">
-                                <input type="text" id="city" placeholder="Escribe el nombre de la ciudad..." className="form-control form-control-small"/>
+                            <InputCompletion options={ cities } name="cities_2" onValueChange={ this.selectChoiceDropdown.bind( this ) }>
+                                <input type="text" id="city" placeholder="Escribe el nombre de la ciudad..." className="form-control form-control-small" />
                             </InputCompletion>
 
                             { this.state.errorEmpty ? <div className="block-error block-error-0">Debes ingresar la ciudad de circulación del vehiculo. <i

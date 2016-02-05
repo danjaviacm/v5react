@@ -95,24 +95,33 @@ export default class PromoCode extends Component {
 			UJData.terms = this.state.terms
 
 			store.set( 'UJDATA', JSON.stringify( UJData ) )
+
+			let OppData = UJData
+
+	  		! this.state.terms ? alert( 'Debes aceptar los términos y condiciones para realizar tu cotización.' ) : this.setState({ working: true })
+
+	  		Ux3Services.createOppFinal( OppData )
+	  			.then(( data ) => {
+
+	  				console.log( data )
+
+	  				store.remove( 'UJDATA' )
+	  				store.set( 'opp_id', { opp_id: data.opportunity_id })
+
+	  				let table_url = data.comparison_table_url.replace( /cotizacion/g, "cotizaciones" )
+
+	  				window.location.href = table_url
+
+
+	            }).catch(( error ) => {
+	                trackJs.track( JSON.stringify( error ))
+	                console.log( error )
+	            })
 		}
 
 		else
 			this.context.router.push( '/consultar-placa' )
 
-  		let OppData = ''
-
-  		! this.state.terms ? alert( 'Debes aceptar los términos y condiciones para realizar tu cotización.' ) : this.setState({ working: true })
-
-  		Ux3Services.createOppFinal( OppData )
-  			.then(( data ) => {
-
-  				console.log( data )
-
-            }).catch(( error ) => {
-                trackJs.track( JSON.stringify( error ))
-                console.log( error )
-            })
   	}
 
   	render() {

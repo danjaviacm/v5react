@@ -108,7 +108,7 @@ export default class CompleteName extends Component {
             this.context.router.push( '/consultar-placa' )
 
         // Next step
-        this.context.router.push( '/sexo' )
+        this.state.identification_type == 'nit' ? this.context.router.push( '/fecha-de-nacimiento' ) : this.context.router.push( '/sexo' )
   	}
 
   	render() {

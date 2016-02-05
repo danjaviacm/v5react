@@ -170,7 +170,7 @@ export default class Birth extends Component {
             this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
 
         // Set birthday for existing user
-        let birthDate = JSON.parse( store.get( 'UJDATA' ) ).date_of_birth
+        let birthDate = JSON.parse( store.get( 'UJDATA' ) ).date_of_birth ? JSON.parse( store.get( 'UJDATA' ) ).date_of_birth : ''
 
         if ( birthDate.length > 0 ) {
 

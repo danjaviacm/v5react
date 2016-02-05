@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
+import store from 'store2'
 
 export default class VehicleReference extends Component {
 
@@ -10,13 +11,32 @@ export default class VehicleReference extends Component {
 	  	super( props ) 
 
 	  	this.state = {
-	  		references: []
+	  		references: [],
+	  		vehicle_body: '',
+	  		vehicle_brand: '',
+	  		vehicle_model: '',
+	  		vehicle_line: '',
+	  		vehicle_reference: ''
 	  	}
   	}
 
   	componentWillMount () {
 
-  		Ux3Services.getReferencesByLine( 'AUTOMOVIL', 'ACURA', '1998', 'TL' )
+  		let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
+
+  		UJData.vehicle_body && UJData.vehicle_brand ? 
+  			this.setState({ 
+	  			vehicle_body: UJData.vehicle_body, 
+	  			vehicle_brand: UJData.vehicle_brand,
+	  			vehicle_model: UJData.vehicle_model,
+	  			vehicle_line: UJData.vehicle_line,
+	  			vehicle_reference: UJData.vehicle_reference || ''
+	  		}, () => this.fetchReferences() ) : null
+  		
+  	}
+
+  	fetchReferences () {
+  		Ux3Services.getReferencesByLine( this.state.vehicle_body, this.state.vehicle_brand, this.state.vehicle_model, this.state.vehicle_line )
   			.then(( data ) => {
 
                 this.setState({ references: data })
@@ -27,6 +47,37 @@ export default class VehicleReference extends Component {
                 console.log( error )
             })
   	}
+
+  	isActive ( value ) {
+        return `btnuj ${ (( value === this.state.vehicle_reference ) ? 'active': 'default' ) }`
+    }
+
+    selectChoice ( filter ) {
+        this.setState({ vehicle_reference: filter }, () => this.continue() )
+    }
+
+    continue () {
+
+        let UJData = {}
+
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.vehicle_reference = this.state.vehicle_reference
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else {
+
+            UJData.vehicle_model = this.state.vehicle_model
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        this.context.router.push( '/referencia-completa-vehiculo' )
+
+    }
 
   	render() {
 	    return (
@@ -39,7 +90,7 @@ export default class VehicleReference extends Component {
 		            
 		            { this.state.references.map( ( reference, key ) => {
 		            	return <li className="step-vehicle-reference__item" key={ key }>
-			                <span className="btnuj">
+			                <span className={ this.isActive( reference.name ) } onClick={ this.selectChoice.bind( this, reference.name ) }>
 			                    <span className="text">{ reference.name }</span>
 			                </span>
 			            </li>
@@ -49,5 +100,8 @@ export default class VehicleReference extends Component {
 		    </div>
 	    )
   	}
+}
 
+VehicleReference.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
+import store from 'store2'
 
 export default class VehicleModel extends Component {
 
@@ -10,21 +11,28 @@ export default class VehicleModel extends Component {
 	  	super( props )
 
 	  	this.state = {
-	  		models: []
+	  		models: [],
+	  		vehicle_body: '',
+	  		vehicle_brand: '',
+	  		vehicle_model: ''
 	  	}
   	}
 
   	componentWillMount () {
 
-		this.fetchModels()  
+  		let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
+
+  		UJData.vehicle_body && UJData.vehicle_brand ? 
+  			this.setState({ 
+	  			vehicle_body: UJData.vehicle_body, 
+	  			vehicle_brand: UJData.vehicle_brand,
+	  			vehicle_model: UJData.vehicle_model || ''
+	  		}, () => this.fetchModels() ) : null
   	}
 
   	fetchModels () {
 
-  		let popular_brands = []
-  		let alphabeticalList = []
-
-  		Ux3Services.getModelsByBrand( 'AUTOMOVIL', 'ACURA' )
+  		Ux3Services.getModelsByBrand( this.state.vehicle_body, this.state.vehicle_brand )
 	  		.then(( data ) => {
 
                 this.setState({ models: data })
@@ -35,6 +43,37 @@ export default class VehicleModel extends Component {
             })
   	}
 
+    isActive ( value ) {
+        return `square ${ (( value === this.state.vehicle_model ) ? 'active': 'default' ) }`
+    }
+
+    selectChoice ( filter ) {
+        this.setState({ vehicle_model: filter }, () => this.continue() )
+    }
+
+    continue () {
+
+        let UJData = {}
+
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.vehicle_model = this.state.vehicle_model
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else {
+
+            UJData.vehicle_model = this.state.vehicle_model
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        this.context.router.push( '/linea-vehiculo' )
+
+    }
+
   	render() {
 	    return (
 	    	<div id="step-vehicle-model" className="step step-vehicle-model">
@@ -44,13 +83,13 @@ export default class VehicleModel extends Component {
 		        </header>
 		        
 		        <div className="upper" style={{ background: 'rgba(0,0,0,0.1)', borderRadius: '10px', display: 'inline-block', padding: '7px 17px', marginTop: '-20px', marginBottom: '15px' }}>
-		            <h2><i className="vehicle_className cmuj-car"></i> ACURA</h2>
+		            <h2><i className="vehicle_className cmuj-car"></i> { this.state.vehicle_brand }</h2>
 		        </div>
 
 		        <div align="center" className="squares">
 		            
 		            { this.state.models.map( ( year, key ) => { 
-		            	return <div className="square" key={ key }>
+		            	return <div className={ this.isActive( year.year ) } key={ key } onClick={ this.selectChoice.bind( this, year.year ) }>
 			                { year.year }
 			            </div> 
 			        })}
@@ -65,5 +104,8 @@ export default class VehicleModel extends Component {
 	    	</div>
 	    )
   	}
+}
 
+VehicleModel.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

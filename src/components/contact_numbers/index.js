@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import request from 'reqwest'
-import Ux3Services from '../../services/Ux3Services'
 import $ from 'jquery'
 import _ from 'lodash'
 import is from 'is_js'
+import store from 'store2'
 
 
 export default class ContactNumbers extends Component {
@@ -17,11 +16,20 @@ export default class ContactNumbers extends Component {
             errorMobile: false,
             errorHome: false,
             errorOffice: false,
-            errorEmpty: false
+            errorEmpty: false,
+            mobile_phone: '',
+            phone: '',
+            office_phone: ''
 	  	}
 
 	  	context.router
   	}
+
+    componentWillMount () {
+        
+        store.has( 'UJDATA' ) ? 
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
+    }
 
   	componentDidMount () {
 
@@ -37,30 +45,63 @@ export default class ContactNumbers extends Component {
         let phone = this.refs.phone.value.trim()
         let officePhone = this.refs.office_phone.value.trim()
 
-        // validate all fields for not empty
-        is.all.empty( mobilePhone, phone, officePhone ) ? 
-            this.setState({ errorEmpty: true }) : this.setState({ errorEmpty: false })
-
         // validate mobile phone
         is.not.empty( mobilePhone ) && mobilePhone.length < 10 ? 
-            this.setState({ errorMobile: true }) : this.setState({ errorMobile: false })
+            this.setState({ errorMobile: true }) : this.setState({ errorMobile: false, mobile_phone: mobilePhone })
 
         // validate phone
         is.not.empty( phone ) && phone.length < 7 ? 
-            this.setState({ errorHome: true }) : this.setState({ errorHome: false })
+            this.setState({ errorHome: true }) : this.setState({ errorHome: false, phone: phone })
 
         // validate office phone
         is.not.empty( officePhone ) && officePhone.length < 7 ? 
-            this.setState({ errorOffice: true }) : this.setState({ errorOffice: false })
+            this.setState({ errorOffice: true }) : this.setState({ errorOffice: false, office_phone: officePhone })
+
+        // validate all fields for not empty
+        if ( is.all.empty( mobilePhone, phone, officePhone ) ) {
+
+            this.setState({ errorEmpty: true })
+            return false
+        }
+
+        else if ( mobilePhone.length == 10 || phone.length == 7 || officePhone.length == 7 ) {
+
+            this.setState({ errorEmpty: false })
+            return true
+        }
     }
 
-  	continue ( e, filter ) {
-
+    handleSubmit ( e ) {
+        
         e.preventDefault()
 
-        this.checkPhone()
+        if ( this.checkPhone() ) {
 
-  		this.setState({ selected: filter })
+            this.continue()
+        }
+
+    }
+
+  	continue () {
+
+        let UJData = {}
+
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.mobile_phone = this.state.mobile_phone
+            UJData.phone = this.state.phone
+            UJData.office_phone = this.state.office_phone
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else
+            this.context.router.push( '/consultar-placa' )
+
+        // Next step
+        this.context.router.push( '/situacion-actual' )
+
   	}
 
   	render() {
@@ -79,28 +120,31 @@ export default class ContactNumbers extends Component {
                                 <dt className="iconuj hidden-xs"><i className="cmuj-mobile"></i></dt>
                                 <dd>
                                     <label className="pull-left" htmlFor="mobile_phone">Celular</label>
-                                    <input autoFocus ref="mobile_phone" name="mobile_phone" maxLength="10" id="mobile_phone" style={{ textAlign: 'center', color: '#777' }} className="form-control cel" type="text" onChange={ this.checkPhone.bind( this ) }/>
+                                    <input autoFocus defaultValue={ this.state.mobile_phone || '' } ref="mobile_phone" name="mobile_phone" maxLength="10" id="mobile_phone" style={{ textAlign: 'center', color: '#777' }} className="form-control cel" type="text" onChange={ this.checkPhone.bind( this ) }/>
                                     { this.state.errorMobile ? <span className="block-error" ng-show="errorMobile">El número de celular debe tener al menos 10 caracteres.</span> : null }
                                 </dd>
                                 <dt className="iconuj hidden-xs"><i className="cmuj-home"></i></dt>
                                 <dd>
                                     <label className="pull-left" htmlFor="phone">Casa</label>
-                                    <input id="phone" ref="phone" style={{ textAlign: 'center', color: '#777' }} maxLength="7" className="form-control phone" type="text" onChange={ this.checkPhone.bind( this ) }/>
+                                    <input id="phone" defaultValue={ this.state.phone || '' } ref="phone" style={{ textAlign: 'center', color: '#777' }} maxLength="7" className="form-control phone" type="text" onChange={ this.checkPhone.bind( this ) }/>
                                     { this.state.errorHome ? <span className="block-error" ng-show="errorHome">El teléfono de casa debe tener al menos 7 caracteres.</span> : null }
                                 </dd>
                                 <dt className="iconuj hidden-xs"><i className="cmuj-telephone"></i></dt>
                                 <dd>
                                     <label className="pull-left" htmlFor="office_phone">Oficina</label>
-                                    <input id="office_phone" ref="office_phone" style={{ textAlign: 'center', color: '#777' }} maxLength="7" className="form-control office_phone" type="text"  onChange={ this.checkPhone.bind( this ) }/>
+                                    <input id="office_phone" defaultValue={ this.state.office_phone || '' } ref="office_phone" style={{ textAlign: 'center', color: '#777' }} maxLength="7" className="form-control office_phone" type="text"  onChange={ this.checkPhone.bind( this ) }/>
                                     { this.state.errorOffice ? <span className="block-error" ng-show="errorOffice">El teléfono de oficina debe tener al menos 7 caracteres.</span> : null }
                                 </dd>
                             </dl>
                         </div>
                     </div>
-                    <button className="btn btn-orange upper" onClick={ this.continue.bind( this ) }>Continuar</button>
+                    <button className="btn btn-orange upper" onClick={ this.handleSubmit.bind( this ) }>Continuar</button>
                 </form>
             </div>
 	    )
   	}
+}
 
+ContactNumbers.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

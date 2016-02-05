@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
-import numeral from 'numeral'
+import store from 'store2'
 
 export default class VehicleServiceType extends Component {
 
@@ -11,34 +11,52 @@ export default class VehicleServiceType extends Component {
 	  	super( props ) 
 
 	  	this.state = {
-	  		vehicle_body_validation: 'AUTOMOVIL',
-	  		selected: ''
+	  		vehicle_body_validation: '',
+            vehicle_service_type: ''
 	  	}
 
 	  	context.router
   	}
 
+    componentWillMount () {
+        
+        let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
+
+        UJData.vehicle_body ? 
+            this.setState({ 
+                vehicle_body_validation: UJData.vehicle_body,
+                vehicle_service_type: UJData.vehicle_service_type || ''
+            }) : null
+    }
+
   	isActive ( value ) {
-    	return `btnuj btn-icon-content ${ (( value === this.state.selected ) ? 'active': 'default' ) }`
+    	return `btnuj btn-icon-content ${ (( value === this.state.vehicle_service_type ) ? 'active': 'default' ) }`
   	}
 
-  	componentWillMount () {
+    selectChoice ( filter ) {
+        this.setState({ vehicle_service_type: filter }, () => this.continue() )
+    }
 
-  		Ux3Services.getVehiclePriceFromFasecolda( '1998', '34401002' )
-  			.then(( data ) => {
+  	continue () {
 
-                this.setState({ fasecoldaPrice: data.price })
-                console.log( data )
+  		let UJData = {}
 
-            }).catch(( error ) => {
-                trackJs.track( JSON.stringify( error ))
-                console.log( error )
-            })
-  	}
+        if ( store.has( 'UJDATA' ) ) {
 
-  	continue ( filter ) {
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.vehicle_service_type = this.state.vehicle_service_type
 
-  		this.setState({ selected: filter })
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else {
+
+            UJData.vehicle_service_type = this.state.vehicle_service_type
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        this.context.router.push( '/tipo-servicio-vehiculo' )
   	}
 
   	render() {
@@ -51,7 +69,7 @@ export default class VehicleServiceType extends Component {
 		        <ul className="unstyled-list h-list centered-v-list step-vehicle-body__list">
 		            
 		            <li>
-		                <div className={ this.isActive( 'particular' ) } onClick={ this.continue.bind( this, 'particular' ) }>
+		                <div className={ this.isActive( 'particular' ) } onClick={ this.selectChoice.bind( this, 'particular' ) }>
 		                    { this.state.vehicle_body_validation != 'MOTO' ? <span className="icon"><i className="cmuj-car"></i></span> : null }
 		                    { this.state.vehicle_body_validation == 'MOTO' ? <span ng-if="vehicle_body == 'MOTO'" className="icon"><i className="cmuj-motorcycle"></i></span> : null }
 		                    <span className="text">Particular</span>
@@ -59,14 +77,14 @@ export default class VehicleServiceType extends Component {
 		            </li>
 
 		            { this.state.vehicle_body_validation != 'MOTO' ? <li>
-                        <div className={ this.isActive( 'publico' ) } onClick={ this.continue.bind( this, 'publico' ) }>
+                        <div className={ this.isActive( 'publico' ) } onClick={ this.selectChoice.bind( this, 'publico' ) }>
                             <span className="icon"><i className="cmuj-taxi"></i></span>
                             <span className="text">Público</span>
                         </div>
                     </li> : null }
 
                     { this.state.vehicle_body_validation != 'MOTO' ? <li>
-                        <div className={ this.isActive( 'publico-especial' ) } onClick={ this.continue.bind( this, 'publico-especial' ) }>
+                        <div className={ this.isActive( 'publico-especial' ) } onClick={ this.selectChoice.bind( this, 'publico-especial' ) }>
                             <span className="icon"><i className="cmuj-taxi"></i></span>
                             <span className="text">Público especial</span>
                         </div>
@@ -75,5 +93,8 @@ export default class VehicleServiceType extends Component {
 		    </div>
 	    )
   	}
+}
 
+VehicleServiceType.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

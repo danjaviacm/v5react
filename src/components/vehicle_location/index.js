@@ -3,6 +3,7 @@ import request from 'reqwest'
 import Ux3Services from '../../services/Ux3Services'
 import _ from 'lodash'
 import numeral from 'numeral'
+import store from 'store2'
 
 export default class VehicleLocation extends Component {
 
@@ -11,10 +12,12 @@ export default class VehicleLocation extends Component {
 	  	super( props ) 
 
 	  	this.state = {
-	  		vehicleBrand: 'ACURA',
-	  		vehicleLine: 'TL',
-	  		vehicleModel: '1998',
+	  		vehicleBrand: '',
+	  		vehicleLine: '',
+	  		vehicleModel: '',
 	  		fasecoldaPrice: '',
+	  		fasecolda_code: '',
+	  		vehicle_location: '',
 	  		showFasecolda: false,
 	  		showError: false
 	  	}
@@ -24,7 +27,23 @@ export default class VehicleLocation extends Component {
 
   	componentWillMount () {
 
-  		Ux3Services.getVehiclePriceFromFasecolda( '1998', '34401002' )
+  		let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
+
+  		UJData.vehicle_body && UJData.vehicle_brand ? 
+  			this.setState({ 
+	  			vehicle_body: UJData.vehicle_body, 
+	  			vehicle_brand: UJData.vehicle_brand,
+	  			vehicle_model: UJData.vehicle_model,
+	  			vehicle_line: UJData.vehicle_line,
+	  			vehicle_reference: UJData.vehicle_reference,
+	  			fasecolda_code: UJData.fasecolda_code,
+	  			vehicle_location: UJData.vehicle_location || '',
+	  		}, () => this.fetchFasecolda() ) : null
+  		
+  	}
+
+  	fetchFasecolda () {
+  		Ux3Services.getVehiclePriceFromFasecolda( this.state.vehicle_model, this.state.fasecolda_code )
   			.then(( data ) => {
 
                 this.setState({ fasecoldaPrice: data.price })
@@ -36,18 +55,23 @@ export default class VehicleLocation extends Component {
             })
   	}
 
-  	yes ( e ) {
+  	yes ( filter ) {
 
-  		e.preventDefault()
-
-  		this.setState({ showFasecolda: true })
+  		this.setState({ 
+  			showFasecolda: true, 
+  			vehicle_location: filter, 
+  			vehicle_is_zero_km: 1 
+  		})
   	}
 
-  	no ( e ) {
+  	no ( filter ) {
 
-  		e.preventDefault()
-
-  		this.setState({ showFasecolda: false })
+  		this.setState({ 
+  			showFasecolda: false, 
+  			vehicle_location: filter, 
+  			vehicle_is_zero_km: 0,
+  			vehicle_commercial_value: this.state.fasecoldaPrice 
+  		}, () => this.continue() )
   	}
 
   	formatCurrency ( e ) {
@@ -62,15 +86,39 @@ export default class VehicleLocation extends Component {
   			this.setState({ showError: false })
   	}
 
+  	isActive ( value ) {
+        return `btnuj btn-icon-content step-vehicle-zero-km__location ${ (( value === this.state.vehicle_location ) ? 'active': 'default' ) }`
+    }
+
   	continue ( e ) {
 
-  		e.preventDefault()
+  		e ? e.preventDefault() : null
 
-  		let price = this.refs.price.value
+  		let price = ! this.refs.price ? this.state.fasecoldaPrice : this.refs.price.value.replace( /,/g, "" )
+  		
+  		if ( price.length < 7 )
+  			return
 
-  		if ( price.replace( /,/g, "" ).length < 7 ) return
+  		let UJData = {}
 
-  		console.log( 'continue' )
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.vehicle_is_zero_km = this.state.vehicle_is_zero_km
+            UJData.vehicle_commercial_value = price
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else {
+
+            UJData.vehicle_is_zero_km = this.state.vehicle_is_zero_km
+            UJData.vehicle_commercial_value = price
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        this.context.router.push( '/tipo-servicio-vehiculo' )
   	}
 
   	render() {
@@ -81,13 +129,13 @@ export default class VehicleLocation extends Component {
 		        </header>
 		        <ul className="unstyled-list h-list centered-v-list step-vehicle-zero-km__list">
 		            <li>
-		                <div className="btnuj btn-icon-content step-vehicle-zero-km__location" onClick={ this.yes.bind( this ) }>
+		                <div className={ this.isActive( 'yes' ) } onClick={ this.yes.bind( this, 'yes' ) }>
 		                    <span className="icon"><i className="cmuj-local"></i></span>
 		                    <span className="text">En concesionario</span>
 		                </div>
 		            </li>
 		            <li>
-		                <div className="btnuj btn-icon-content step-vehicle-zero-km__location" onClick={ this.no.bind( this ) }>
+		                <div className={ this.isActive( 'no' ) } onClick={ this.no.bind( this, 'no' ) }>
 		                    <span className="icon"><i className="cmuj-path"></i></span>
 		                    <span className="text">En circulación</span>
 		                </div>
@@ -112,5 +160,8 @@ export default class VehicleLocation extends Component {
 		    </div>
 	    )
   	}
+}
 
+VehicleLocation.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

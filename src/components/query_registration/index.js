@@ -109,8 +109,18 @@ export default class QueryRegistration extends Component {
 
     noPlate () {
 
+        // Initialize data
+        let UJData = {}
+
+        // Remove previous data 
         if ( store.has( 'UJDATA' ) )
             store.remove( 'UJDATA' )
+
+        // Get plate and start process
+        UJData.vehicle_registration = 'SINPLA'
+        UJData.vehicle_has_registration = false
+
+        store.set( 'UJDATA', JSON.stringify( UJData ) )
 
         this.context.router.push( '/tipo-vehiculo' )
     }

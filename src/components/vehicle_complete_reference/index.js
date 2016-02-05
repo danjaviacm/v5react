@@ -17,7 +17,7 @@ export default class VehicleCompleteReference extends Component {
 	  		vehicle_model: '',
 	  		vehicle_line: '',
 	  		vehicle_reference: '',
-	  		vehicle_complete_reference: ''
+	  		fasecolda_code: ''
 	  	}
   	}
 
@@ -32,7 +32,7 @@ export default class VehicleCompleteReference extends Component {
 	  			vehicle_model: UJData.vehicle_model,
 	  			vehicle_line: UJData.vehicle_line,
 	  			vehicle_reference: UJData.vehicle_reference,
-	  			vehicle_complete_reference: UJData.vehicle_complete_reference || ''
+	  			fasecolda_code: UJData.fasecolda_code || ''
 	  		}, () => this.fetchCompleteReference() ) : null
   		
   	}
@@ -51,11 +51,11 @@ export default class VehicleCompleteReference extends Component {
   	}
 
   	isActive ( value ) {
-        return `btnuj ${ (( value === this.state.vehicle_complete_reference ) ? 'active': 'default' ) }`
+        return `btnuj ${ (( value === this.state.fasecolda_code ) ? 'active': 'default' ) }`
     }
 
     selectChoice ( filter ) {
-        this.setState({ vehicle_complete_reference: filter }, () => this.continue() )
+        this.setState({ fasecolda_code: filter }, () => this.continue() )
     }
 
     continue () {
@@ -65,14 +65,14 @@ export default class VehicleCompleteReference extends Component {
         if ( store.has( 'UJDATA' ) ) {
 
             UJData = JSON.parse( store.get( 'UJDATA' ) ) 
-            UJData.vehicle_complete_reference = this.state.vehicle_complete_reference
+            UJData.fasecolda_code = this.state.fasecolda_code
 
             store.set( 'UJDATA', JSON.stringify( UJData ) )
         }
 
         else {
 
-            UJData.vehicle_model = this.state.vehicle_model
+            UJData.fasecolda_code = this.state.fasecolda_code
 
             store.set( 'UJDATA', JSON.stringify( UJData ) )
         }
@@ -92,7 +92,7 @@ export default class VehicleCompleteReference extends Component {
 		            
 		            { this.state.completeReferences.map( ( reference, key ) => {
 		            	return <li className="step-vehicle-complete-reference__item" key={ key }>
-			                <span className={ this.isActive( reference.name ) } onClick={ this.selectChoice.bind( this, reference.name ) }>
+			                <span className={ this.isActive( reference.code ) } onClick={ this.selectChoice.bind( this, reference.code ) }>
 			                    <span className="text">{ reference.name }</span>
 			                </span>
 			            </li>

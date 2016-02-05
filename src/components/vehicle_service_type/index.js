@@ -20,13 +20,8 @@ export default class VehicleServiceType extends Component {
 
     componentWillMount () {
         
-        let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
-
-        UJData.vehicle_body ? 
-            this.setState({ 
-                vehicle_body_validation: UJData.vehicle_body,
-                vehicle_service_type: UJData.vehicle_service_type || ''
-            }) : null
+        store.has( 'UJDATA' ) ? 
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
     }
 
   	isActive ( value ) {
@@ -49,13 +44,10 @@ export default class VehicleServiceType extends Component {
             store.set( 'UJDATA', JSON.stringify( UJData ) )
         }
 
-        else {
+        else
+            this.context.router.push( '/consultar-placa' )
 
-            UJData.vehicle_service_type = this.state.vehicle_service_type
-
-            store.set( 'UJDATA', JSON.stringify( UJData ) )
-        }
-
+        // Next step
         this.context.router.push( '/tipo-servicio-vehiculo' )
   	}
 

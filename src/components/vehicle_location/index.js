@@ -27,18 +27,8 @@ export default class VehicleLocation extends Component {
 
   	componentWillMount () {
 
-  		let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
-
-  		UJData.vehicle_body && UJData.vehicle_brand ? 
-  			this.setState({ 
-	  			vehicle_body: UJData.vehicle_body, 
-	  			vehicle_brand: UJData.vehicle_brand,
-	  			vehicle_model: UJData.vehicle_model,
-	  			vehicle_line: UJData.vehicle_line,
-	  			vehicle_reference: UJData.vehicle_reference,
-	  			fasecolda_code: UJData.fasecolda_code,
-	  			vehicle_location: UJData.vehicle_location || '',
-	  		}, () => this.fetchFasecolda() ) : null
+        store.has( 'UJDATA' ) ?
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ), () => this.fetchFasecolda() ) : this.context.router.push( '/consultar-placa' )
   		
   	}
 
@@ -47,7 +37,6 @@ export default class VehicleLocation extends Component {
   			.then(( data ) => {
 
                 this.setState({ fasecoldaPrice: data.price })
-                console.log( data )
 
             }).catch(( error ) => {
                 trackJs.track( JSON.stringify( error ))
@@ -80,7 +69,7 @@ export default class VehicleLocation extends Component {
 
   		e.currentTarget.value = value
 
-  		if ( value.replace( /,/g, "" ).length < 7 ) 
+  		if ( value.replace( /,/g, "" ).length < 6 ) 
   			this.setState({ showError: true })
   		else
   			this.setState({ showError: false })
@@ -96,7 +85,7 @@ export default class VehicleLocation extends Component {
 
   		let price = ! this.refs.price ? this.state.fasecoldaPrice : this.refs.price.value.replace( /,/g, "" )
   		
-  		if ( price.length < 7 )
+  		if ( price.length < 6 )
   			return
 
   		let UJData = {}
@@ -110,14 +99,10 @@ export default class VehicleLocation extends Component {
             store.set( 'UJDATA', JSON.stringify( UJData ) )
         }
 
-        else {
+        else
+            this.context.router.push( '/consultar-placa' )
 
-            UJData.vehicle_is_zero_km = this.state.vehicle_is_zero_km
-            UJData.vehicle_commercial_value = price
-
-            store.set( 'UJDATA', JSON.stringify( UJData ) )
-        }
-
+        // Next step
         this.context.router.push( '/tipo-servicio-vehiculo' )
   	}
 
@@ -125,7 +110,7 @@ export default class VehicleLocation extends Component {
 	    return (
 	    	<div id="step-vehicle-zero-km" className="step step-vehicle-zero-km">
 		        <header>
-		            <h1>¿Cuál es la ubicación de tu { this.state.vehicleBrand } { this.state.vahicleLine }/{ this.state.vehicleModel }?</h1>
+		            <h1>¿Cuál es la ubicación de tu { this.state.vehicle_brand } { this.state.vehicle_line }/{ this.state.vehicle_model }?</h1>
 		        </header>
 		        <ul className="unstyled-list h-list centered-v-list step-vehicle-zero-km__list">
 		            <li>
@@ -150,7 +135,7 @@ export default class VehicleLocation extends Component {
 		                        <div className="input-group-addon">$</div>
 		                            <input id="vehicle_commercial_value" maxLength="15" ref="price" style={{ textAlign: 'center' }} defaultValue={ numeral( this.state.fasecoldaPrice ).format( '0,0' ) } className="form-control" type="text" ng-model="vehicle_commercial_value" onChange={ this.formatCurrency.bind( this ) } placeholder="Valor del vehículo en factura de compra..."/>
 		                        </div>
-		                    { this.state.showError ? <span className="block-error">Debes ingresar un valor superior o igual a 1.000.000. Solo Números. <br/></span> : null }
+		                    { this.state.showError ? <span className="block-error">Debes ingresar un valor superior o igual a 100.000 Solo Números. <br/></span> : null }
 		                    <span className="helpBlock small" style={{ color: '#f0f0f0' }}>Escribe el valor del vehículo que aparece en tu factura de compra.</span>
 		                </div>
 		            </div>

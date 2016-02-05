@@ -12,11 +12,11 @@ export default class VehicleType extends Component {
 	    }
   	}
 
-  	componentDidMount () {
+  	componentWillMount () {
 
-  		let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
+  		store.has( 'UJDATA' ) ? 
+  			this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : store.set( 'UJDATA', JSON.stringify({ vehicle_has_registration: 0, vehicle_registration: 'SINPLA' }) )
 
-  		UJData.vehicle_body ? this.setState({ vehicle_body: UJData.vehicle_body }) : null
   	}
 
     isActive ( value ) {
@@ -32,8 +32,6 @@ export default class VehicleType extends Component {
     continue () {
 
     	let UJData = {}
-
-    	console.log( this.state.vehicle_body )
 
     	if ( store.has( 'UJDATA' ) ) {
 

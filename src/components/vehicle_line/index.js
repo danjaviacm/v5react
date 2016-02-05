@@ -21,15 +21,10 @@ export default class VehicleLine extends Component {
 
   	componentWillMount () {
 
-  		let UJData = store.has( 'UJDATA' ) ? JSON.parse( store.get( 'UJDATA' ) ) : {}
-
-  		UJData.vehicle_body && UJData.vehicle_brand ? 
-  			this.setState({ 
-	  			vehicle_body: UJData.vehicle_body, 
-	  			vehicle_brand: UJData.vehicle_brand,
-	  			vehicle_model: UJData.vehicle_model,
-	  			vehicle_line: UJData.vehicle_line || ''
-	  		}, () => this.fetchLines() ) : null
+  		if ( store.has( 'UJDATA' ) )
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ), () => this.fetchLines() )
+        else
+            this.context.router.push( '/consultar-placa' )
 
   	}
 
@@ -66,13 +61,10 @@ export default class VehicleLine extends Component {
             store.set( 'UJDATA', JSON.stringify( UJData ) )
         }
 
-        else {
+        else
+            this.context.router.push( '/consultar-placa' )
 
-            UJData.vehicle_model = this.state.vehicle_model
-
-            store.set( 'UJDATA', JSON.stringify( UJData ) )
-        }
-
+        // Next step
         this.context.router.push( '/referencia-vehiculo' )
 
     }

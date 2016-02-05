@@ -74,10 +74,8 @@ export default class VehicleBrand extends Component {
 
   	componentWillMount () {
 
-        let UJData = JSON.parse( store.get( 'UJDATA' ) )
-        
-        if ( UJData.vehicle_body ) 
-            this.setState({ vehicle_body: UJData.vehicle_body }, () => this.fetchBrands() )
+        store.has( 'UJDATA' ) ?
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ), () => this.fetchBrands() ) : this.context.router.push( '/consultar-placa' )
 	
   	}
 
@@ -101,13 +99,10 @@ export default class VehicleBrand extends Component {
             store.set( 'UJDATA', JSON.stringify( UJData ) )
         }
 
-        else {
+        else
+            this.context.router.push( '/consultar-placa' )
 
-            UJData.vehicle_brand = this.state.vehicle_brand
-
-            store.set( 'UJDATA', JSON.stringify( UJData ) )
-        }
-
+        // Next step
         this.context.router.push( '/modelo-vehiculo' )
 
     }

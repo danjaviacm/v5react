@@ -48,7 +48,7 @@ export default class VehicleServiceType extends Component {
             this.context.router.push( '/consultar-placa' )
 
         // Next step
-        this.context.router.push( '/tipo-servicio-vehiculo' )
+        this.context.router.push( '/ciudad-vehiculo' )
   	}
 
   	render() {

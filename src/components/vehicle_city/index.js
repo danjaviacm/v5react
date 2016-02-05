@@ -4,6 +4,7 @@ import Ux3Services from '../../services/Ux3Services'
 import InputCompletion from 'react-input-completion'
 import cities from '../../services/Cities'
 import _ from 'lodash'
+import store from 'store2'
 
 export default class VehicleCity extends Component {
 
@@ -12,9 +13,10 @@ export default class VehicleCity extends Component {
 	  	super( props ) 
 
 	  	this.state = {
-	  		vehicleBrand: 'ACURA',
-            vehicleLine: 'LT',
-            vehicleModel: '1998',
+	  		vehicleBrand: '',
+            vehicleLine: '',
+            vehicleModel: '',
+            vehicle_city: '',
 	  		selected: '',
             option: '',
             errorEmpty: false,
@@ -24,31 +26,38 @@ export default class VehicleCity extends Component {
 	  	context.router
   	}
 
-  	isActive ( value ) {
-    	return `btnuj btn-icon-content ${ (( value === this.state.selected ) ? 'active': 'default' ) }`
-  	}
-
-    selectOption ( option ) {
-
-    }
-
   	componentWillMount () {
 
-  		Ux3Services.getVehiclePriceFromFasecolda( '1998', '34401002' )
-  			.then(( data ) => {
-
-                this.setState({ fasecoldaPrice: data.price })
-                console.log( data )
-
-            }).catch(( error ) => {
-                trackJs.track( JSON.stringify( error ))
-                console.log( error )
-            })
+  		store.has( 'UJDATA' ) ? 
+            this.setState( JSON.parse( store.get( 'UJDATA' ) ) ) : this.context.router.push( '/consultar-placa' )
   	}
 
-  	continue ( filter ) {
+    isActive ( value ) {
+        return `btnuj ${ (( value === this.state.vehicle_city ) ? 'active': 'default' ) }`
+    }
 
-  		this.setState({ selected: filter })
+    selectChoice ( filter ) {
+
+        this.setState({ vehicle_city: filter }, () => this.continue() )
+    }
+
+  	continue () {
+
+        let UJData = {}
+
+        if ( store.has( 'UJDATA' ) ) {
+
+            UJData = JSON.parse( store.get( 'UJDATA' ) ) 
+            UJData.vehicle_city = this.state.vehicle_city
+
+            store.set( 'UJDATA', JSON.stringify( UJData ) )
+        }
+
+        else
+            this.context.router.push( '/consultar-placa' )
+
+        // Next step
+        this.context.router.push( '/ciudad-vehiculo' )
   	}
 
   	render() {
@@ -56,26 +65,26 @@ export default class VehicleCity extends Component {
 	    return (
 	    	<div id="step-vehicle-city" className="step step-vehicle-city">
                 <header>
-                    <h1>¿En qué ciudad circula tu { this.state.vehicleBrand } { this.state.vehicleLine }/{ this.state.vehicleModel }?</h1>
+                    <h1>¿En qué ciudad circula tu { this.state.vehicle_brand } { this.state.vehicle_line }/{ this.state.vehicle_model }?</h1>
                 </header>
                 <ul className="unstyled-list v-list step-vehicle-city__list">
                     <li>
-                        <span className="btnuj" ng-click="selectOption('Bogotá, Bogota D.C., Colombia')">
+                        <span className={ this.isActive( 'Bogotá, Bogota D.C., Colombia' ) } onClick={ this.selectChoice.bind( this, 'Bogotá, Bogota D.C., Colombia' ) }>
                             <span className="text">Bogotá</span>
                         </span>
                     </li>
                     <li>
-                        <span className="btnuj" ng-click="selectOption('Medellín, Antioquia, Colombia')">
+                        <span className={ this.isActive( 'Medellín, Antioquia, Colombia' ) } onClick={ this.selectChoice.bind( this, 'Medellín, Antioquia, Colombia' ) }>
                             <span className="text">Medellín</span>
                         </span>
                     </li>
                     <li>
-                        <span className="btnuj" href="" ng-click="selectOption('Cali, Valle del Cauca, Colombia')">
+                        <span className={ this.isActive( 'Cali, Valle del Cauca, Colombia' ) } href="" onClick={ this.selectChoice.bind( this, 'Cali, Valle del Cauca, Colombia' ) }>
                             <span className="text">Cali</span>
                         </span>
                     </li>
                     <li>
-                        <span className="btnuj" href="" ng-click="selectOption('Barranquilla, Atlántico, Colombia')">
+                        <span className={ this.isActive( 'Barranquilla, Atlántico, Colombia' ) } href="" onClick={ this.selectChoice.bind( this, 'Barranquilla, Atlántico, Colombia' ) }>
                             <span className="text">Barranquilla</span>
                         </span>
                     </li>
@@ -102,5 +111,8 @@ export default class VehicleCity extends Component {
             </div>
 	    )
   	}
+}
 
+VehicleCity.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

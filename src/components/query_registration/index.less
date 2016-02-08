@@ -5,6 +5,50 @@
 	position: relative;
 	color: #fff;
 	min-height: 77vh;
+
+	@media ( max-width: @screen-sm-max ) {
+		
+	    .ta-left.back-step {
+		    float: left;
+		    width: 100%;
+		    padding: 10px;
+		    background: rgba(0,0,0,.2);
+		    margin-top: 10px;
+		    text-decoration: none;
+
+	    	&:visited,
+	    	&:active,
+	    	&:hover {
+	    		color: #fff;
+	    	}
+		    
+		    .loadiuj-xs {
+		    	float: right;
+		    }
+	    }
+	}
+
+	@media ( max-width: @screen-xs-max ) {
+
+	    .ta-left.back-step {
+		    float: left;
+		    width: 100%;
+		    padding: 10px;
+		    background: rgba(0,0,0,.2);
+		    margin-top: 10px;
+		    text-decoration: none;
+
+	    	&:visited,
+	    	&:active,
+	    	&:hover {
+	    		color: #fff;
+	    	}
+		    
+		    .loadiuj-xs {
+		    	float: right;
+		    }
+	    }
+	}
 }
 
 .step-query-registration {
@@ -80,7 +124,7 @@
 
 	@media ( max-width: @screen-xs-max ) {
 	    #plate {
-	      font-size: 30px;
+	      	font-size: 30px;
 	    }
 	}
 

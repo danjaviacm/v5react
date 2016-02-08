@@ -85,6 +85,7 @@
 			margin-top: 23px;
 			height: 40px;
 			width: auto;
+			max-width: 50%;
 		}
 	}
 
@@ -93,6 +94,7 @@
 			margin-top: 23px;
 			height: 35px;
 			width: auto;
+			max-width: 50%;
 		}
 	}
 
@@ -101,6 +103,7 @@
 			margin-top: 23px;
 			height: 30px;
 			width: auto;
+			max-width: 50%;
 		}
 
 		.btn-callme {
@@ -112,4 +115,29 @@
 
 .mg {
 	margin-top: 10px!important;
+}
+
+.comparamejor-main-header {
+
+	&__navbar {
+		height: 83px!important;
+	}
+
+	@media ( max-width: @screen-sm-max ) {
+		
+	    &__navbar-header {
+	    	img {
+	    		max-width: 230px;
+	    	}
+		}
+	}
+
+	@media ( max-width: @screen-xs-max ) {
+		
+	    &__navbar-header {
+	    	img {
+	    		max-width: 230px;
+	    	}
+		}
+	}
 }

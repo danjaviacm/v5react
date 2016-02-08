@@ -11,6 +11,14 @@
     width: 170px;
     height: 170px;
 
+    &:nth-child( n+15 ) {
+        display: none;
+    }
+
+    &:last-child {
+        display: inline-block;
+    }
+
     &:hover,
     &:active,
     &.active {
@@ -58,5 +66,27 @@
         display: block;
         padding-top: 7px;
         color: #999;
+    }
+
+    @media ( max-width: @screen-sm-max ) {
+        
+        &:nth-child( n+15 ) {
+            display: block;
+        }
+        
+        &:last-child {
+            display: none;
+        }
+    }
+
+    @media ( max-width: @screen-xs-max ) {
+        
+        &:nth-child( n+15 ) {
+            display: block;
+        }
+        
+        &:last-child {
+            display: none;
+        }
     }
 }

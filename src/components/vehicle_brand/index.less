@@ -1,5 +1,35 @@
 .brands {
     text-align: center;
+
+    @media ( max-width: @screen-sm-max ) {
+        
+        .brand { 
+            width: 100%;
+            height: auto;
+            padding: 0 5px 5px;
+
+            .container-img { display: none; }
+
+            span {
+                text-align: left;
+            }
+        }
+    }
+
+    @media ( max-width: @screen-xs-max ) {
+        
+        .brand { 
+            width: 100%;
+            height: auto;
+            padding: 0 5px 5px;
+
+            .container-img { display: none; }
+
+            span {
+                text-align: left;
+            }
+        }
+    }
 }
 
 .list-brands {

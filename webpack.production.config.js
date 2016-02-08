@@ -45,7 +45,7 @@ module.exports = {
 			},
 
 			// BOOTSTRAP && OUR FONTS
-			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?name=font/name=[name].[ext]' },
+			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?name=font/[name].[ext]' },
 
 			{ test: /\.eot(\?-[a-z0-9]+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream&name=font/[name].[ext]" }, 
 

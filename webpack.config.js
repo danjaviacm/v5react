@@ -1,9 +1,10 @@
-const path = require( 'path' );
-const node_modules = path.resolve( __dirname, 'node_modules' );
-const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const webpack = require( "webpack" );
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require( 'path' )
+const node_modules = path.resolve( __dirname, 'node_modules' )
+const OpenBrowserPlugin = require('open-browser-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const webpack = require( "webpack" )
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const PATHS = {
 	app: path.resolve(__dirname, 'src/main.js' ),
@@ -18,7 +19,7 @@ module.exports = {
 
 	output: {
 		path: PATHS.build,
-		filename: 'bundle.js'
+		filename: 'bundle-[hash].js'
 	},
 
 	module: {
@@ -64,8 +65,6 @@ module.exports = {
 	plugins: [
 
         new CopyWebpackPlugin([
-        	
-            { from: PATHS.indexfile },
 
             { from: PATHS.fonts, to: 'fonts' }
 
@@ -75,6 +74,17 @@ module.exports = {
                 '*.txt'
             ]
         }),
+        
+		new webpack.DefinePlugin({
+		    'process.env.NODE_ENV': '"development"'
+		}),
+
+		new HtmlWebpackPlugin({
+	      	title: 'ComparaMejor.com',
+	      	filename: 'index.html',
+	      	template: 'src/index.html',
+	      	bundle: 'bundle-[hash].js'
+	    }),
 
 		new OpenBrowserPlugin({ url: 'http://localhost:5000' }),
 		// new ExtractTextPlugin( "./[name].css" )

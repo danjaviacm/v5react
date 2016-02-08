@@ -1,7 +1,9 @@
-const path = require( 'path' );
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const node_modules = path.resolve( __dirname, 'node_modules' );
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require( 'path' )
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const node_modules = path.resolve( __dirname, 'node_modules' )
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require( "webpack" )
 
 const PATHS = {
 	app: path.resolve(__dirname, 'src/main.js' ),
@@ -9,7 +11,9 @@ const PATHS = {
 	main: path.resolve(__dirname, 'build/index.html' ),
 	index: path.resolve(__dirname, 'index.html' ),
 	fonts: path.resolve(__dirname, 'src/fonts')
-};
+}
+
+NODE_ENV='production'
 
 module.exports = {
 
@@ -17,7 +21,8 @@ module.exports = {
 
 	output: {
 		path: PATHS.build,
-		filename: 'bundle.js',
+		filename: 'bundle-[hash].js',
+    	hash: true
 	},
 
 	// For joi libs
@@ -39,7 +44,7 @@ module.exports = {
 			},
 
 			// BOOTSTRAP && OUR FONTS
-			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?name=[name]-[hash].[ext]' },
+			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?font/name=[name]-[hash].[ext]' },
 
 			{ test: /\.eot(\?-[a-z0-9]+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" }, 
 
@@ -69,8 +74,6 @@ module.exports = {
 
 	plugins: [
         new CopyWebpackPlugin([
-        
-            { from: PATHS.main, to: PATHS.index },
 
             { from: PATHS.fonts, to: 'fonts' }
 
@@ -80,6 +83,15 @@ module.exports = {
                 '*.txt'
             ]
         }),
-		new ExtractTextPlugin( "./[name].css" )
+		new ExtractTextPlugin( "./[name].css" ),
+		new webpack.DefinePlugin({
+		    'process.env.NODE_ENV': '"production"'
+		}),
+		new HtmlWebpackPlugin({
+	      	title: 'ComparaMejor.com',
+	      	filename: 'index.html',
+	      	template: 'src/index.html',
+	      	bundle: 'bundle-[hash].js'
+	    })
     ]
 };

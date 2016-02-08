@@ -106,7 +106,7 @@ export default class PromoCode extends Component {
 	  				console.log( data )
 
 	  				store.remove( 'UJDATA' )
-	  				store.set( 'opp_id', { opp_id: data.opportunity_id })
+	  				store.set( 'opp_id', JSON.stringify({ opp_id: data.opportunity_id }) )
 
 	  				let table_url = data.comparison_table_url.replace( /cotizacion/g, "cotizaciones" )
 

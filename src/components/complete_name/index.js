@@ -100,6 +100,7 @@ export default class CompleteName extends Component {
             UJData.vehicle_service_type = this.state.vehicle_service_type
             UJData.first_name = this.refs.firstname.value.trim()
             UJData.last_name = this.refs.lastname ? this.refs.lastname.value.trim() : ''
+            UJData.sex = 'M'
 
             store.set( 'UJDATA', JSON.stringify( UJData ) )
         }

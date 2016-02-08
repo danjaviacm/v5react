@@ -62,12 +62,12 @@ export default class App extends Component {
 
 							{ this.state.serverWait ? <Loading /> : null }
 
-							<a href="" className="ta-left white back-step visible-xs" onClick={ this.previousStep.bind( this ) }>
+							{ this.state.arrow ? <a href="" className="ta-left white back-step visible-xs" onClick={ this.previousStep.bind( this ) }>
 								<i className="fa fa-chevron-left"></i><i className="fa fa-chevron-left"></i> Paso anterior
 								<div className="loadiuj-xs visible-xs">
 									{ this.state.serverWait ? <span><i className="fa fa-spinner fa-spin"></i>&nbsp;&nbsp;Procesando...</span> : null }
 								</div>
-							</a>
+							</a> : null }
 							
 							<div>
 								<section className="container-step pbgw-2x">

@@ -22,6 +22,7 @@ module.exports = {
 	output: {
 		path: PATHS.build,
 		filename: 'bundle-[hash].js',
+        publicPath: '/',
     	hash: true
 	},
 
@@ -44,23 +45,23 @@ module.exports = {
 			},
 
 			// BOOTSTRAP && OUR FONTS
-			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?font/name=[name]-[hash].[ext]' },
+			{ test: /\.(ttf|eot|svg|woff|woff2?)(\?[a-z0-9]+)?$/, loader : 'file-loader?name=font/name=[name].[ext]' },
 
-			{ test: /\.eot(\?-[a-z0-9]+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" }, 
+			{ test: /\.eot(\?-[a-z0-9]+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream&name=font/[name].[ext]" }, 
 
 			// FONT AWESOME FONTS
-			{ test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" }, 
+			{ test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff&name=font/[name].[ext]" }, 
 
-			{ test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" }, 
+			{ test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff&name=font/[name].[ext]" }, 
 
-			{ test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" }, 
+			{ test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream&name=font/[name].[ext]" }, 
 
-			{ test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=100000" }, 
+			{ test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=100000&name=font/[name].[ext]" }, 
 
-			{ test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
+			{ test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml&name=font/[name].[ext]" },
 
 			// IMAGES
-			{ test: /\.(png|jpg)$/, loader: 'url?limit=25000' },
+			{ test: /\.(png|jpg)$/, loader: 'url?limit=25000&name=images/[name].[ext]' },
 
 			// LESS
             // { test: /\.less$/, loader: "style!css!less" },

@@ -54,7 +54,7 @@ export default class QueryRegistration extends Component {
 
         this.setState({ loadingUj: true, errorLength: false, errorEmpty: false })
 
-        globalState.callback({ serverWait: true })
+        globalState.callback({ serverWait: true, arrow: true })
 
         Ux3Services.getInfoHidden( plate )
             .then(( data ) => {
@@ -123,19 +123,21 @@ export default class QueryRegistration extends Component {
         store.set( 'UJDATA', JSON.stringify( UJData ) )
 
         this.context.router.push( '/tipo-vehiculo' )
+
+        globalState.callback({ arrow: true })
     }
 
   	render() {
     	return (
     		<section id="step-query-registration" className="step step-query-registration">
             	<div className="row ptgw-2x">
-                	<div className="col-xs-6 ta-right step-query-registration__message">
+                	<div className="col-xs-12 col-md-6 ta-right step-query-registration__message">
                     	<span className="bebas upper">Cotiza gratis</span><br/>
                     	<span className="bebas upper palid-yellow">tu seguro todo riesgo</span><br/>
                     	<span className="bebas upper palid-yellow">en segundos</span>
                 	</div>
 
-                	<div className="col-xs-4 ta-left step-query-registration__form">
+                	<div className="col-xs-12 col-md-4 ta-left step-query-registration__form">
                     	<span>Ingresa tu placa</span> <br/>
 
                     	<form action="#/consultar-placa" method="post" className="step-query-registration__form-registration" id="form-registration" onSubmit={ this.continue.bind( this ) }>

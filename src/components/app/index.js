@@ -16,7 +16,8 @@ export default class App extends Component {
 		super( props )
 
 		this.state = {
-			serverWait: false
+			serverWait: false,
+			arrow: true
 		}
 
 	}
@@ -26,6 +27,12 @@ export default class App extends Component {
 		globalState.callback = ( data ) => {
 			this.setState( data )
 		}
+	}
+
+	componentDidMount () {
+
+		if ( /^\#\/consultar-placa/g.test( window.location.hash ) )
+			this.setState({ arrow: false })
 	}
 
 	previousStep () {
@@ -45,9 +52,9 @@ export default class App extends Component {
 							<Steps />
 
 							<div className="navigation-control hidden-xs">
-								<a className="arrow-left" href="" onClick={ this.previousStep.bind( this ) }>
+								{ this.state.arrow ? <a className="arrow-left" href="" onClick={ this.previousStep.bind( this ) }>
 									<span><i className="fa fa-chevron-left"></i><i className="fa fa-chevron-left"></i></span>
-								</a>
+								</a> : null }
 								<a className="arrow-right" href="">
 									<span><i className="fa fa-chevron-right"></i><i className="fa fa-chevron-right"></i></span>
 								</a>

@@ -28,6 +28,10 @@ export default class App extends Component {
 		}
 	}
 
+	previousStep () {
+		this.context.router.goBack()
+	}
+
 	render() {
 
 		return (
@@ -41,7 +45,7 @@ export default class App extends Component {
 							<Steps />
 
 							<div className="navigation-control hidden-xs">
-								<a className="arrow-left" href="">
+								<a className="arrow-left" href="" onClick={ this.previousStep.bind( this ) }>
 									<span><i className="fa fa-chevron-left"></i><i className="fa fa-chevron-left"></i></span>
 								</a>
 								<a className="arrow-right" href="">
@@ -71,4 +75,8 @@ export default class App extends Component {
 			</div>
 		);
 	}
+}
+
+App.contextTypes = {
+    router: React.PropTypes.object.isRequired
 }

@@ -32,7 +32,6 @@ export default class VehicleReference extends Component {
   			.then(( data ) => {
 
                 this.setState({ references: data })
-                console.log( data )
 
             }).catch(( error ) => {
                 trackJs.track( JSON.stringify( error ))

@@ -18,6 +18,7 @@
     }
 
     h1 {
+    	width: auto;
 	    font-size: 43px;
 	    float: left;
 	    margin-top: 12px;
@@ -66,8 +67,24 @@
 	@media ( max-width: @screen-sm-max ) {
 		
 	    h1 {
+	    	width: 100%;
 	    	font-size: 33px;
+		    text-align: center;
+		    margin: 15px 0!important;
 	    }
+
+	    &__navbar {
+	    	display: none,
+	    }
+    	
+		&__list {
+			display: flex;
+			width: 100%;
+
+		    &__item {
+		    	flex: 1;
+		    }
+		}
 	}
 
 	@media ( max-width: @screen-xs-max ) {

@@ -34,7 +34,7 @@ export default class Header extends Component {
 								<div className="wrapper clearfix">
 									<ul id="user-block" className="nav navbar-nav submenu-mobile">
 										<li id="account-button" className="dropdown">
-											<a href="/usuarios/login" className="upper comparamejor-main-header__login"><i className="fa fa-user"></i> Ingresar</a>
+											<a href="/usuarios/datos-personales/" className="upper comparamejor-main-header__login"><i className="fa fa-user"></i> Mis Datos</a>
 										</li>
 									</ul>
 									{/*This is a requirement from Ricardo Buitrago due to an arrangement with inbox labs*/}

@@ -134,7 +134,7 @@ export default class Identification extends Component {
 					<div className="form-group">
 						<div className="row">
 							<div className="col-xs-6 col-xs-offset-3">
-								{ identification_type ? <input autoFocus ref="identification" defaultValue={ this.state.identification || null } style={{ textAlign: 'center', color: '#777' }} className="form-control upper identification" type="text" placeholder="Número de identificación" pattern="[0-9]{5,12}" maxLength="12" /> : null }
+								{ identification_type ? <input autoFocus ref="identification" defaultValue={ this.state.identification || null } style={{ textAlign: 'center', color: '#777' }} className="form-control upper identification" type="tel" placeholder="Número de identificación" pattern="[0-9]{5,12}" maxLength="12" /> : null }
 								{ ! identification_type ? <input autoFocus ref="identification" defaultValue={ this.state.identification || null } style={{ textAlign: 'center', color: '#777' }} className="form-control upper externalIdentification" type="text" placeholder="Número de identificación" pattern="[a-zA-Z0-9]{5,12}" maxLength="12" /> : null }
 								{ this.state.showError ? <span className="block-error" >{ this.state.identification_type == 'nit' ? 'Debes ingresar una identificación válida, sin dígito de verificación.' : 'Debes ingresar una identificación válida.' }</span> : null }
 							</div>

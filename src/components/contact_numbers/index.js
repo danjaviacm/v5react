@@ -120,19 +120,19 @@ export default class ContactNumbers extends Component {
                                 <dt className="iconuj hidden-xs"><i className="cmuj-mobile"></i></dt>
                                 <dd>
                                     <label className="pull-left" htmlFor="mobile_phone">Celular</label>
-                                    <input autoFocus defaultValue={ this.state.mobile_phone || '' } ref="mobile_phone" name="mobile_phone" maxLength="10" id="mobile_phone" style={{ textAlign: 'center', color: '#777' }} className="form-control cel" type="text" onChange={ this.checkPhone.bind( this ) }/>
+                                    <input autoFocus defaultValue={ this.state.mobile_phone || '' } ref="mobile_phone" name="mobile_phone" maxLength="10" id="mobile_phone" style={{ textAlign: 'center', color: '#777' }} className="form-control cel" type="tel" onChange={ this.checkPhone.bind( this ) }/>
                                     { this.state.errorMobile ? <span className="block-error" ng-show="errorMobile">El número de celular debe tener al menos 10 caracteres.</span> : null }
                                 </dd>
                                 <dt className="iconuj hidden-xs"><i className="cmuj-home"></i></dt>
                                 <dd>
                                     <label className="pull-left" htmlFor="phone">Casa</label>
-                                    <input id="phone" defaultValue={ this.state.phone || '' } ref="phone" style={{ textAlign: 'center', color: '#777' }} maxLength="7" className="form-control phone" type="text" onChange={ this.checkPhone.bind( this ) }/>
+                                    <input id="phone" defaultValue={ this.state.phone || '' } ref="phone" style={{ textAlign: 'center', color: '#777' }} maxLength="7" className="form-control phone" type="tel" onChange={ this.checkPhone.bind( this ) }/>
                                     { this.state.errorHome ? <span className="block-error" ng-show="errorHome">El teléfono de casa debe tener al menos 7 caracteres.</span> : null }
                                 </dd>
                                 <dt className="iconuj hidden-xs"><i className="cmuj-telephone"></i></dt>
                                 <dd>
                                     <label className="pull-left" htmlFor="office_phone">Oficina</label>
-                                    <input id="office_phone" defaultValue={ this.state.office_phone || '' } ref="office_phone" style={{ textAlign: 'center', color: '#777' }} maxLength="7" className="form-control office_phone" type="text"  onChange={ this.checkPhone.bind( this ) }/>
+                                    <input id="office_phone" defaultValue={ this.state.office_phone || '' } ref="office_phone" style={{ textAlign: 'center', color: '#777' }} maxLength="7" className="form-control office_phone" type="tel" onChange={ this.checkPhone.bind( this ) }/>
                                     { this.state.errorOffice ? <span className="block-error" ng-show="errorOffice">El teléfono de oficina debe tener al menos 7 caracteres.</span> : null }
                                 </dd>
                             </dl>

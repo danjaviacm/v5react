@@ -6,9 +6,15 @@ export default class Header extends Component {
 
 		super( props )
 		
-		this.state = {}
+		this.state = {
+			open: false
+		}
 
 	}
+
+  	isActive ( value ) {
+    	return `navbar-collapse ${ (( value === true ) ? 'collapse in': 'default' ) }`
+  	}
 
 	render() {
 		return (
@@ -17,7 +23,7 @@ export default class Header extends Component {
 					<div className="container">
 						{/*Brand and toggle get grouped for better mobile display */}
 						<div className="navbar-header comparamejor-main-header__navbar-header">
-							<button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#header-navbar-collapse">
+							<button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#header-navbar-collapse" onClick={ ()=> this.setState({ open: ! this.state.open })}>
 								<span className="sr-only">Toggle navigation</span>
 								<span className="icon-bar"></span>
 								<span className="icon-bar"></span>
@@ -28,8 +34,7 @@ export default class Header extends Component {
 							</a>
 						</div>
 
-						{/* Collect the nav links, forms, and other content for toggling */}
-						<div className="collapse navbar-collapse" id="header-navbar-collapse">
+						<div className={ this.isActive( this.state.open ) } id="header-navbar-collapse">
 							<div className="block top">
 								<div className="wrapper clearfix">
 									<ul id="user-block" className="nav navbar-nav submenu-mobile">
